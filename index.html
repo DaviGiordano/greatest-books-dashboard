@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>How great books relate</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+</head>
+
+
+<body onload="startDashboard()">
+    <div id="header">
+        <!-- <img src="img/icon.png" id="header-icon" alt=""> -->
+        <h1 id="title">Main Title</h1>
+    </div>
+    <a class="open-icon" href="#" onclick="showSidebar(event)">&#8594;</a>
+    <div class="sidebar show">
+        <a class="close-icon" href="#" onclick="hideSidebar(event)">&#10006</a>
+        <div id="filter-box">
+            <!-- Number of pages filters -->
+            <div class="filter-group">
+                <div class="filter-row">
+                    <label for="minPages">Minimum Pages:</label>
+                    <input type="number" id="minPages" value="10">
+                    <label for="maxPages">Maximum Pages:</label>
+                    <input type="number" id="maxPages" value="2000">
+                </div>
+
+                <!-- Start and end date filters -->
+                <div class="filter-row">
+                    <div><label for="startDate">Start Date:</label><input type="date" id="startDate" value="1900-01-01"></div>
+                    <div><label for="endDate">End Date:</label><input type="date" id="endDate" value="2020-11-30"></div>
+                </div>
+
+                <!-- Genres filters -->
+                <div class="filter-row">
+                    <label for="genreSelect">Genres:</label>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-content">
+                            <div><button onclick="selectAllGenres()" id="selectAllGenres">Select All Genres</button></div>
+                            <div><button onclick="clearAllGenres()" id="removeAllGenres">Clear All Genres</button></div>
+                            <div id="genreCheckboxList">
+                                <div><label><input type="checkbox" value="Adventure" checked> Adventure</label></div>
+                                <div><label><input type="checkbox" value="Biography" checked> Biography</label></div>
+                                <div><label><input type="checkbox" value="Business" checked> Business</label></div>
+                                <div><label><input type="checkbox" value="Childrens" checked> Childrens</label></div>
+                                <div><label><input type="checkbox" value="Classics" checked> Classics</label></div>
+                                <div><label><input type="checkbox" value="Fantasy" checked> Fantasy</label></div>
+                                <div><label><input type="checkbox" value="Fiction" checked> Fiction</label></div>
+                                <div><label><input type="checkbox" value="Graphic Novels" checked> Graphic Novels</label></div>
+                                <div><label><input type="checkbox" value="Historical Fiction" checked> Historical Fiction</label></div>
+                                <div><label><input type="checkbox" value="Horror" checked> Horror</label></div>
+                                <div><label><input type="checkbox" value="Mystery" checked> Mystery</label></div>
+                                <div><label><input type="checkbox" value="Nonfiction" checked> Nonfiction</label></div>
+                                <div><label><input type="checkbox" value="Poetry" checked> Poetry</label></div>
+                                <div><label><input type="checkbox" value="Religion" checked> Religion</label></div>
+                                <div><label><input type="checkbox" value="Romance" checked> Romance</label></div>
+                                <div><label><input type="checkbox" value="Science" checked> Science</label></div>
+                                <div><label><input type="checkbox" value="Science Fiction" checked> Science Fiction</label></div>
+                                <div><label><input type="checkbox" value="Self Help" checked> Self Help</label></div>
+                                <div><label><input type="checkbox" value="True Crime" checked> True Crime</label></div>
+                                <div><label><input type="checkbox" value="Young Adult" checked> Young Adult</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Apply filters button -->
+                <div class="filter-row">
+                    <button id="filterButton">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="dashboard">
+
+
+        <div class="chart" id="parallelcoords"></div>
+        <div class="chart" id="linechart2"></div>
+        <div id="linechartContainer">
+            <div class="show-average-lineChart">
+                <label for="showAverageLine">Show Average Line:</label>
+                <input type="checkbox" id="toggleAverageLineChart">
+            </div>
+            <div class="chart" id="linechart"></div>
+        
+        </div>
+        <div class="chart" id="streamgraph"></div>
+
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="javascript/filter.js"></script>
+    <script src="javascript/linechart.js"></script>
+    <!-- <script src="script/linked.js"></script> -->
+    <!-- <script src="script/map.js"></script> -->
+    <!-- <script src="script/parallelcoords.js"></script> -->
+    <script src="javascript/streamgraph.js"></script>
+    <script src="javascript/sidebar.js"></script>
+    <script src="javascript/script.js"></script>
+
+</body>
+
+</html>

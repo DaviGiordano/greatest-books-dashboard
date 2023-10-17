@@ -1,0 +1,35 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#header{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 8px;
+    background-color: aliceblue;
+}
+
+#dashboard{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;    
+    width: fill;
+    height: 100%;
+    margin: 10px;
+    gap: 10px;
+    
+}
+.chart{
+    background-color: bisque;
+    border: 1px rgb(0, 0, 0);   
+    width: fit-content;
+}
+
+#linechartContainer{
+    height: fit-content;
+    width: fit-content;
+}
