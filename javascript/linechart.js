@@ -75,11 +75,11 @@ function drawLineChart(data) {
       d3.min(localFilteredData, (d) => d.num_in_series),
       d3.max(localFilteredData, (d) => d.num_in_series),
     ])
-    .range([0, width]);
+    .range([5, width]);
 
   const yScale = d3
     .scaleLinear()
-    .domain([0, 1,])
+    .domain([-1, 1,])
     .range([height, 0]);
 
   const yScale_norm_rating = d3

@@ -1,7 +1,7 @@
 // Function that creates a chart using rawData
 function createStreamGraph(rawData) {
 
-  legendWidth = 120;
+  legendWidth = 130;
   localFilteredData = rawData.filter(function (d) {
     return d.book_count != "" && d.year != "" && d.first_genre != "";
   });
@@ -121,7 +121,7 @@ const color = d3.scaleOrdinal()
 
   // Create legend
   const legend = svg.append("g")
-    .attr("transform", `translate(${width-legendWidth+10},0)`);  // Adjust the position accordingly
+    .attr("transform", `translate(${width-legendWidth+18},0)`);  // Adjust the position accordingly
 
   selected_keys.reverse().forEach((key, i) => {
     const legendRow = legend.append("g")

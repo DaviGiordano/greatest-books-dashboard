@@ -21,7 +21,7 @@
         <button class="form-button" id="open-icon" href="#" onclick="showSidebar(event)">Open Filter</button>
 
     </div>
-    <div class="sidebar show">
+    <div class="sidebar hide">
         <div class="filter-row" id="top-buttons">
             <button class="form-button" id="close-icon" href="#" onclick="hideSidebar(event)">Close Filter</button>
             <button class="form-button" id="filterButton" onclick="hideSidebar(event)">Apply Filter</button>
@@ -42,10 +42,10 @@
 
                 <!-- Start and end date filters -->
                 <div class="filter-row">
-                    <div><label for="startDate">Min Publish Date:</label><input class="input-form" type="date" id="startDate"
-                            value="1900-01-01"></div>
-                    <div><label for="endDate">Max Publish Date:</label><input class="input-form" type="date" id="endDate"
-                            value="2020-11-30"></div>
+                    <div><label for="startDate">Min Publish Date:</label><input class="input-form" type="date"
+                            id="startDate" value="1900-01-01"></div>
+                    <div><label for="endDate">Max Publish Date:</label><input class="input-form" type="date"
+                            id="endDate" value="2020-11-30"></div>
                 </div>
 
                 <!-- Genres filters -->
@@ -54,24 +54,39 @@
                     <div class="custom-dropdown">
                         <div class="dropdown-content">
                             <div id="button-selection">
-                                <button class="form-button" onclick="selectAllGenres()" id="selectAllGenres">Select All Genres</button>
-                                <button class="form-button" onclick="clearAllGenres()" id="removeAllGenres">Clear All Genres</button>
+                                <button class="form-button" onclick="selectAllGenres()" id="selectAllGenres">Select All
+                                    Genres</button>
+                                <button class="form-button" onclick="clearAllGenres()" id="removeAllGenres">Clear All
+                                    Genres</button>
                             </div>
                             <div id="genreCheckboxList">
-                                <div><label><input type="checkbox" value="Adventure" checked> Adventure</label></div>
-                                <div><label><input type="checkbox" value="Biography" checked> Biography</label></div>
-                                <div><label><input type="checkbox" value="Business" checked> Business</label></div>
-                                <div><label><input type="checkbox" value="Fantasy" checked> Fantasy</label></div>
-                                <div><label><input type="checkbox" value="Historical Fiction" checked> Historical
-                                        Fiction</label></div>
-                                <div><label><input type="checkbox" value="Horror" checked> Horror</label></div>
-                                <div><label><input type="checkbox" value="Mystery" checked> Mystery</label></div>
-                                <div><label><input type="checkbox" value="Poetry" checked> Poetry</label></div>
-                                <div><label><input type="checkbox" value="Religion" checked> Religion</label></div>
-                                <div><label><input type="checkbox" value="Science" checked> Science</label></div>
-                                <div><label><input type="checkbox" value="Science Fiction" checked> Science
-                                        Fiction</label></div>
-                                <div><label><input type="checkbox" value="Self Help" checked> Self Help</label></div>
+                                <div class="firstSectionGenres">
+                                    <div><label><input type="checkbox" value="Adventure" checked> Adventure</label>
+                                    </div>
+                                    <div><label><input type="checkbox" value="Biography" checked> Biography</label>
+                                    </div>
+                                    <div><label><input type="checkbox" value="Business" checked> Business</label></div>
+                                    <div><label><input type="checkbox" value="Fantasy" checked> Fantasy</label></div>
+                                    <div><label><input type="checkbox" value="Historical Fiction" checked> Historical
+                                            Fiction</label></div>
+                                    <div><label><input type="checkbox" value="Horror" checked> Horror</label></div>
+                                </div>
+                                <div class="secondSectionGenres">
+                                    <div><label><input type="checkbox" value="Mystery" checked> Mystery</label></div>
+                                    <div><label><input type="checkbox" value="Poetry" checked> Poetry</label></div>
+                                    <div><label><input type="checkbox" value="Religion" checked> Religion</label></div>
+                                    <div><label><input type="checkbox" value="Science" checked> Science</label></div>
+                                    <div><label><input type="checkbox" value="Science Fiction" checked> Science
+                                            Fiction</label></div>
+                                    <div><label><input type="checkbox" value="Self Help" checked> Self Help</label>
+                                    </div>
+                                </div>
+
+
+
+
+
+
                             </div>
                         </div>
                     </div>

@@ -7,7 +7,7 @@
     height:100%;
     box-shadow:2px 2px 3px 3px #ccc;
     box-sizing:border-box;
-    padding:20px 30px;
+    padding: 10px 20px;
     background:white;
 }
 
@@ -28,4 +28,13 @@
 
 #close-icon{
     background-color: #ffcccb;
+}
+
+.sidebar text{
+  font-size: small;
+}
+
+#genreCheckboxList{
+  display: flex;
+  gap: 20px;
 }
