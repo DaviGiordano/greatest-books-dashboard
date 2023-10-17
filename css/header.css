@@ -1,0 +1,22 @@
+
+#header{
+    position: fixed;
+    display: flex;
+    top: 0;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    background-color: aliceblue;
+    height: fit-content;
+    padding: 10px 0;
+}
+
+#title, #open-icon{
+    margin: 0 10px;
+}
+
+#open-icon{
+    position: absolute;
+    right: 0px;
+}

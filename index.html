@@ -6,33 +6,46 @@
     <title>How great books relate</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/input.css">
 </head>
 
 
 <body onload="startDashboard()">
     <div id="header">
         <!-- <img src="img/icon.png" id="header-icon" alt=""> -->
-        <h1 id="title">Main Title</h1>
+        <h1 id="title">How are the greatest books related?</h1>
+        <button class="form-button" id="open-icon" href="#" onclick="showSidebar(event)">Open Filter</button>
+
     </div>
-    <a class="open-icon" href="#" onclick="showSidebar(event)">&#8594;</a>
     <div class="sidebar show">
-        <a class="close-icon" href="#" onclick="hideSidebar(event)">&#10006</a>
+        <div class="filter-row" id="top-buttons">
+            <button class="form-button" id="close-icon" href="#" onclick="hideSidebar(event)">Close Filter</button>
+            <button class="form-button" id="filterButton" onclick="hideSidebar(event)">Apply Filter</button>
+        </div>
         <div id="filter-box">
+            <div class="show-average-lineChart">
+                <input type="checkbox" id="toggleAverageLineChart">
+                <label for="showAverageLine">Show Average Lines</label>
+            </div>
             <!-- Number of pages filters -->
             <div class="filter-group">
                 <div class="filter-row">
-                    <label for="minPages">Minimum Pages:</label>
-                    <input type="number" id="minPages" value="10">
-                    <label for="maxPages">Maximum Pages:</label>
-                    <input type="number" id="maxPages" value="2000">
+                    <div><label for="minPages">Minimum Pages:</label><input type="number" class="input-form"
+                            id="minPages" value="10"></div>
+                    <div><label for="maxPages">Maximum Pages:</label><input type="number" class="input-form"
+                            id="maxPages" value="2000"></div>
                 </div>
 
                 <!-- Start and end date filters -->
                 <div class="filter-row">
-                    <div><label for="startDate">Start Date:</label><input type="date" id="startDate" value="1900-01-01"></div>
-                    <div><label for="endDate">End Date:</label><input type="date" id="endDate" value="2020-11-30"></div>
+                    <div><label for="startDate">Min Publish Date:</label><input class="input-form" type="date" id="startDate"
+                            value="1900-01-01"></div>
+                    <div><label for="endDate">Max Publish Date:</label><input class="input-form" type="date" id="endDate"
+                            value="2020-11-30"></div>
                 </div>
 
                 <!-- Genres filters -->
@@ -40,42 +53,36 @@
                     <label for="genreSelect">Genres:</label>
                     <div class="custom-dropdown">
                         <div class="dropdown-content">
-                            <div><button onclick="selectAllGenres()" id="selectAllGenres">Select All Genres</button></div>
-                            <div><button onclick="clearAllGenres()" id="removeAllGenres">Clear All Genres</button></div>
+                            <div id="button-selection">
+                                <button class="form-button" onclick="selectAllGenres()" id="selectAllGenres">Select All Genres</button>
+                                <button class="form-button" onclick="clearAllGenres()" id="removeAllGenres">Clear All Genres</button>
+                            </div>
                             <div id="genreCheckboxList">
                                 <div><label><input type="checkbox" value="Adventure" checked> Adventure</label></div>
                                 <div><label><input type="checkbox" value="Biography" checked> Biography</label></div>
                                 <div><label><input type="checkbox" value="Business" checked> Business</label></div>
-                                <div><label><input type="checkbox" value="Childrens" checked> Childrens</label></div>
-                                <div><label><input type="checkbox" value="Classics" checked> Classics</label></div>
                                 <div><label><input type="checkbox" value="Fantasy" checked> Fantasy</label></div>
-                                <div><label><input type="checkbox" value="Fiction" checked> Fiction</label></div>
-                                <div><label><input type="checkbox" value="Graphic Novels" checked> Graphic Novels</label></div>
-                                <div><label><input type="checkbox" value="Historical Fiction" checked> Historical Fiction</label></div>
+                                <div><label><input type="checkbox" value="Historical Fiction" checked> Historical
+                                        Fiction</label></div>
                                 <div><label><input type="checkbox" value="Horror" checked> Horror</label></div>
                                 <div><label><input type="checkbox" value="Mystery" checked> Mystery</label></div>
-                                <div><label><input type="checkbox" value="Nonfiction" checked> Nonfiction</label></div>
                                 <div><label><input type="checkbox" value="Poetry" checked> Poetry</label></div>
                                 <div><label><input type="checkbox" value="Religion" checked> Religion</label></div>
-                                <div><label><input type="checkbox" value="Romance" checked> Romance</label></div>
                                 <div><label><input type="checkbox" value="Science" checked> Science</label></div>
-                                <div><label><input type="checkbox" value="Science Fiction" checked> Science Fiction</label></div>
+                                <div><label><input type="checkbox" value="Science Fiction" checked> Science
+                                        Fiction</label></div>
                                 <div><label><input type="checkbox" value="Self Help" checked> Self Help</label></div>
-                                <div><label><input type="checkbox" value="True Crime" checked> True Crime</label></div>
-                                <div><label><input type="checkbox" value="Young Adult" checked> Young Adult</label>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Apply filters button -->
-                <div class="filter-row">
-                    <button id="filterButton">Apply Filter</button>
-                </div>
             </div>
+            <!-- Apply filters button -->
+
         </div>
+
+
+    </div>
 
 
     </div>
@@ -83,15 +90,16 @@
     <div id="dashboard">
 
 
-        <div class="chart" id="parallelcoords"></div>
-        <div class="chart" id="linechart2"></div>
+        <div class="chart" id="parallelcoords">
+            <!-- <svg width="600" height="300"></svg> -->
+        </div>
+        <div class="chart" id="linechart2">
+            <!-- <svg width="600" height="300"></svg> -->
+        </div>
         <div id="linechartContainer">
-            <div class="show-average-lineChart">
-                <label for="showAverageLine">Show Average Line:</label>
-                <input type="checkbox" id="toggleAverageLineChart">
-            </div>
+
             <div class="chart" id="linechart"></div>
-        
+
         </div>
         <div class="chart" id="streamgraph"></div>
 

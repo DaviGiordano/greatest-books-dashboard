@@ -84,17 +84,17 @@ function drawLineChart(data) {
 
   const yScale_norm_rating = d3
     .scaleLinear()
-    .domain([d3.min(data_norm_rating, (d) => d[1]), d3.max(data_norm_rating, (d) => d[1]),])
+    .domain([1,-1])
     .range([height, 0]);
 
   const yScale_norm_num_awards = d3
     .scaleLinear()
-    .domain([d3.min(data_norm_num_awards, (d) => d[1]), d3.max(data_norm_num_awards, (d) => d[1]),])
+    .domain([-1,1])
     .range([height, 0]);
 
   const yScale_norm_num_ratings = d3
     .scaleLinear()
-    .domain([d3.min(data_norm_num_ratings, (d) => d[1]), d3.max(data_norm_num_ratings, (d) => d[1]),])
+    .domain([-1,1])
     .range([height, 0]);
 
   // Creating legend
@@ -178,9 +178,9 @@ function drawLineChart(data) {
     .data(keys)
     .enter()
     .append("text")
-    .attr("x", width - 120)
+    .attr("x", width - 130)
     .attr("y", function (d, i) { return 0 + i * 25 }) //25 is the distance between dots
-    .style("fill", function (d) { return color(d) })
+    // .style("fill", function (d) { return color(d) })
     .text(function (d) { return d })
     .attr("text-anchor", "left")
     .style("alignment-baseline", "middle")
@@ -208,6 +208,7 @@ function drawLineChart(data) {
   svg
     .append("g")
     .attr("class", "y-axis")
+    .attr("transform", `translate(${5},${0})`)
     .call(
       d3
         .axisLeft(yScale)

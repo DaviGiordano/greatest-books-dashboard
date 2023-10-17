@@ -1,11 +1,18 @@
-const margin = { top: 20, right: 30, bottom: 50, left: 60 },
-  width = 600 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+const element = document.getElementById("dashboard");
+// const parentElement = element.parentNode;
+const parentWidth = element.offsetWidth;
+const parentHeight = element.offsetHeight;
+
+const margin = { top: 20, right: 30, bottom: 50, left: 30 },
+  width = parentWidth/2 - 10 - margin.left - margin.right,
+  height = parentHeight/2 - 10 - margin.top - margin.bottom;
+
 
 var globalFilteredData;
 var globalInitialData;
 
 function startDashboard() {
+  
   /**
    * Reads the clean_books csv file
    * Transforms the adequate columns to numeric format

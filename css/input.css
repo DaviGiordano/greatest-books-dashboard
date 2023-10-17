@@ -1,0 +1,22 @@
+.input-form{
+	max-width: 500px;
+	padding: 10px;
+	/* background: #f4f7f8; */
+	margin: 5px;
+    background: #FAFBFC;
+	/* background: #f4f7f8; */
+	border-radius: 8px;
+    width: 100px;
+    border-color: transparent;
+    box-shadow: rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+
+}
+/* .input-form legend {
+	font-size: 1.4em;
+	margin-bottom: 10px;
+} */
+/* .input-form label {
+	display: block;
+	margin-bottom: 8px;
+} */

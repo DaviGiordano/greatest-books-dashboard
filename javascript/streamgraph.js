@@ -1,6 +1,7 @@
 // Function that creates a chart using rawData
 function createStreamGraph(rawData) {
 
+  legendWidth = 120;
   localFilteredData = rawData.filter(function (d) {
     return d.book_count != "" && d.year != "" && d.first_genre != "";
   });
@@ -11,7 +12,7 @@ function createStreamGraph(rawData) {
   const svg = d3
     .select("#streamgraph")
     .append("svg")
-    .attr("width", width + margin.left + margin.right+200)
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -61,12 +62,12 @@ function createStreamGraph(rawData) {
   const x = d3
     .scaleLinear()
     .domain(d3.extent(dataArray, (d) => d.year))
-    .range([0, width]);
+    .range([0, width - legendWidth]);
   svg
     .append("g")
     .attr("class", "x-axis")
     .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(x).ticks(5));
+    .call(d3.axisBottom(x).tickFormat(d3.format("")).ticks(10))
 
   // Add Y-axis
   maxValue = d3.max(dataArray, d => keys.reduce((acc, cur) => acc + (d[cur] || 0), 0));
@@ -120,15 +121,16 @@ const color = d3.scaleOrdinal()
 
   // Create legend
   const legend = svg.append("g")
-    .attr("transform", `translate(${width + 20},0)`);  // Adjust the position accordingly
+    .attr("transform", `translate(${width-legendWidth+10},0)`);  // Adjust the position accordingly
 
   selected_keys.reverse().forEach((key, i) => {
     const legendRow = legend.append("g")
       .attr("transform", `translate(0,${i * 20})`);
 
-    legendRow.append("rect")
-      .attr("width", 10)
-      .attr("height", 10)
+    legendRow.append("circle")
+      .attr("r", 5)
+      .attr("transform", `translate(0,5)`)
+      // .attr("height", 10)
       .attr("fill", color(key));
 
     legendRow.append("text")
@@ -137,6 +139,7 @@ const color = d3.scaleOrdinal()
       .attr("text-anchor", "start")
       .style("text-transform", "capitalize")
       .text(key);
+
   });
 
 }

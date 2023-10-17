@@ -2,38 +2,30 @@
     position:fixed;
     display: block;
     top:0;
+    right: 0;
     width:400px;
     height:100%;
     box-shadow:2px 2px 3px 3px #ccc;
     box-sizing:border-box;
     padding:20px 30px;
-    background:lightblue;
-}
-
-.close-icon{
-    position:absolute;
-    right:15px;
-    top:10px;
-    text-decoration:none;
-    font-size:1.4rem;
-}
-.open-icon{
-    position:fixed;
-    left: 8px;
-    bottom: 10px;
-    text-decoration:none;
-    font-size:1.8rem;
-    font-weight:800;
-    padding:2px 5px;
-    background-color: whitesmoke;
-    box-shadow:1px 1px 1px 1px #ccc;
+    background:white;
 }
 
 .hide{
-    transition:left 0.4s;
-    left:-410px;
+    transition:right 0.4s;
+    right:-410px;
 }
   .show{
-    transition:left 0.4s;
-    left:0px;
+    transition:right 0.4s;
+    right:0px;
+}
+
+#top-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#close-icon{
+    background-color: #ffcccb;
 }
