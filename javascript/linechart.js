@@ -84,7 +84,7 @@ function drawLineChart(data) {
 
   const yScale_norm_rating = d3
     .scaleLinear()
-    .domain([1,-1])
+    .domain([-1,1])
     .range([height, 0]);
 
   const yScale_norm_num_awards = d3
