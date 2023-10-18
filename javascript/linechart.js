@@ -171,7 +171,13 @@ function drawLineChart(data) {
     .attr("cx", width - 140)
     .attr("cy", function (d, i) { return 0 + i * 25 }) // 100 is where the first dot appears. 25 is the distance between dots
     .attr("r", 5)
-    .style("fill", function (d) { return color(d) })
+    .style("fill", function (d) { 
+      if (d === "Average") {
+        return "red"; // Set the color to red for the "Average" key
+      } else {
+        return color(d);
+      }
+    })
 
   // Add one text in the legend for each name.
   svg.selectAll("mylabels")
