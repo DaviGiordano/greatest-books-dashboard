@@ -53,7 +53,7 @@ function startDashboard() {
     // Calls drawer functions
     drawLineChart(globalInitialData);
     createStreamGraph(globalInitialData);
-    drawLineChart2(globalInitialData);
+    createParallelCoords(globalInitialData);
     // createAreaChart(data);
     // createAreaChart(data);
     // createAreaChart(data);

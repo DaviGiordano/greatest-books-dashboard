@@ -64,4 +64,5 @@ function updateFilteredData() {
     // Calls drawer functions
     drawLineChart(globalFilteredData);
     createStreamGraph(globalFilteredData);
+    createParallelCoords(globalFilteredData);
 }
