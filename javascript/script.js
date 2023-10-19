@@ -21,7 +21,7 @@ function startDashboard() {
    */
 
   // Reads csv
-  d3.csv("data/clean_books.csv").then(function (data) {
+  d3.csv("data/clean_books_with_country_optimized.csv").then(function (data) {
     // Converts to numeric format
     data.forEach(d => {
       d.pages = +d.pages;
@@ -54,7 +54,7 @@ function startDashboard() {
     drawLineChart(globalInitialData);
     createStreamGraph(globalInitialData);
     createParallelCoords(globalInitialData);
-    // createAreaChart(data);
+    createMapChart(globalInitialData);
     // createAreaChart(data);
     // createAreaChart(data);
 

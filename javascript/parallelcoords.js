@@ -22,8 +22,8 @@ function createParallelCoords(rawData) {
 
     var allGenres = ["Fantasy", "Historical Fiction", "Poetry", "Science Fiction", "Adventure", "Horror", "Mystery", "Religion", "Biography", "Self Help", "Science", "Business"]
     var selectedGenres = Array.from(allGenres);
-    console.log(allGenres);
-    console.log(selectedGenres);
+    // console.log(allGenres);
+    // console.log(selectedGenres);
 
     const colorKeys = [
         '#a6cee3', '#1f78b4', '#b2df8a', '#33a02c',
@@ -57,8 +57,8 @@ function createParallelCoords(rawData) {
     // path function
     // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
     function path(d) {
-        console.log(d);
-        console.log(dimensions.map(function (p) { return [x(p), y[p](d[p])]; }));
+        // console.log(d);
+        // console.log(dimensions.map(function (p) { return [x(p), y[p](d[p])]; }));
         return d3.line()(dimensions.map(function (p) { return [x(p), y[p](d[p])]; }));
     }
     // Draw the lines
