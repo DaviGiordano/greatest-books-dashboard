@@ -1,15 +1,17 @@
-.sidebar{
-    position:fixed;
-    display: block;
-    top:0;
-    right: 0;
-    width:400px;
-    height:100%;
-    box-shadow:2px 2px 3px 3px #ccc;
-    box-sizing:border-box;
-    padding: 10px 20px;
-    background:white;
+.sidebar {
+  position: fixed;
+  display: block;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-height: 100%; /* Set the maximum height to 100% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  box-shadow: 2px 2px 3px 3px #ccc;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background: white;
 }
+
 
 .hide{
     transition:right 0.4s;
@@ -35,6 +37,11 @@
 }
 
 #genreCheckboxList{
+  display: flex;
+  gap: 20px;
+}
+
+#countryCheckboxList{
   display: flex;
   gap: 20px;
 }
