@@ -85,6 +85,134 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Countries filters -->
+                <div class="filter-row">
+                    <label for="countrySelect">Countries:</label>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-content">
+                            <div id="button-selection">
+                                <button class="form-button" onclick="selectAllCountries()" id="selectAllCountries">Select All
+                                    Countries</button>
+                                <button class="form-button" onclick="clearAllCountries()" id="removeAllCountries">Clear All
+                                    Countries</button>
+                            </div>
+                            <div id="countryCheckboxList">
+                                <div class="firstSectionCountries">
+                                    <div><label><input type="checkbox" value="Afghanistan" checked> Afghanistan</label></div>
+                                    <div><label><input type="checkbox" value="Shqipëria" checked> Albania</label></div>
+                                    <div><label><input type="checkbox" value="Algeria" checked> Algeria</label></div>
+                                    <div><label><input type="checkbox" value="Antigua and Barbuda" checked> Antigua and Barbuda</label></div>
+                                    <div><label><input type="checkbox" value="Argentina" checked> Argentina</label></div>
+                                    <div><label><input type="checkbox" value="Australia" checked> Australia</label></div>
+                                    <div><label><input type="checkbox" value="Austria" checked> Austria</label></div>
+                                    <div><label><input type="checkbox" value="Azərbaycan" checked> Azerbaijan</label></div>
+                                    <div><label><input type="checkbox" value="بنغلاديش" checked> Bangladesh</label></div>
+                                    <div><label><input type="checkbox" value="Беларусь" checked> Belarus</label></div>
+                                    <div><label><input type="checkbox" value="België / Belgique / Belgien" checked> Belgium</label></div>
+                                    <div><label><input type="checkbox" value="Bermuda" checked> Bermuda</label></div>
+                                    <div><label><input type="checkbox" value="Bosna i Hercegovina / Босна и Херцеговина" checked> Bosnia and Herzegovina</label></div>
+                                    <div><label><input type="checkbox" value="Brasil" checked> Brazil</label></div>
+                                    <div><label><input type="checkbox" value="България" checked> Bulgaria</label></div>
+                                    <div><label><input type="checkbox" value="ព្រះរាជាណាចក្រ​កម្ពុជា" checked> Cambodia</label></div>
+                                    <div><label><input type="checkbox" value="Cameroun" checked> Cameroon</label></div>
+                                    <div><label><input type="checkbox" value="Canada" checked> Canada</label></div>
+                                    <div><label><input type="checkbox" value="Chile" checked> Chile</label></div>
+                                    <div><label><input type="checkbox" value="中国" checked> China</label></div>
+                                    <div><label><input type="checkbox" value="Colombia" checked> Colombia</label></div>
+                                    <div><label><input type="checkbox" value="Hrvatska" checked> Croatia</label></div>
+                                    <div><label><input type="checkbox" value="Cuba" checked> Cuba</label></div>
+                                    <div><label><input type="checkbox" value="Danmark" checked> Denmark</label></div>
+                                    <div><label><input type="checkbox" value="Dominica" checked> Dominica</label></div>
+                                    <div><label><input type="checkbox" value="República Dominicana" checked> Dominican Republic</label></div>
+                                    <div><label><input type="checkbox" value="Ecuador" checked> Ecuador</label></div>
+                                    <div><label><input type="checkbox" value="مصر" checked> Egypt</label></div>
+                                    <div><label><input type="checkbox" value="إرتريا" checked> Eritrea</label></div>
+                                    <div><label><input type="checkbox" value="Ethiopia" checked> Ethiopia</label></div>
+                                    <div><label><input type="checkbox" value="Suomi / Finland" checked> Finland</label></div>
+                                    <div><label><input type="checkbox" value="France" checked> France</label></div>
+                                    <div><label><input type="checkbox" value="საქართველო" checked> Georgia</label></div>
+                                    <div><label><input type="checkbox" value="Deutschland" checked> Germany</label></div>
+                                    <div><label><input type="checkbox" value="Ghana" checked> Ghana</label></div>
+                                    <div><label><input type="checkbox" value="Grenada" checked> Grenada</label></div>
+                                    <div><label><input type="checkbox" value="Guyana" checked> Guyana</label></div>
+                                    <div><label><input type="checkbox" value="Guatemala" checked> Guatemala</label></div>
+                                    <div><label><input type="checkbox" value="Magyarország" checked> Hungary</label></div>
+                                    <div><label><input type="checkbox" value="Ísland" checked> Iceland</label></div>
+                                    <div><label><input type="checkbox" value="India" checked> India</label></div>
+                                    <div><label><input type="checkbox" value="Indonesia" checked> Indonesia</label></div>
+                                    <div><label><input type="checkbox" value="ایران" checked> Iran</label></div>
+                                    <div><label><input type="checkbox" value="العراق" checked> Iraq</label></div>
+                                    <div><label><input type="checkbox" value="Éire / Ireland" checked> Ireland</label></div>
+                                    <div><label><input type="checkbox" value="Italia" checked> Italy</label></div>
+                                    <div><label><input type="checkbox" value="Jamaica" checked> Jamaica</label></div>
+                                    <div><label><input type="checkbox" value="日本" checked> Japan</label></div>
+                                    <div><label><input type="checkbox" value="الأردن" checked> Jordan</label></div>
+                                    <div><label><input type="checkbox" value="Казахстан" checked> Kazakhstan</label></div>
+                                    <div><label><input type="checkbox" value="Kenya" checked> Kenya</label></div>
+                                    <div><label><input type="checkbox" value="الكويت" checked> Kuwait</label></div>
+                                    <div><label><input type="checkbox" value="لبنان" checked> Lebanon</label></div>
+                                </div>
+                                <div class="secondSectionCountries">
+                                    <div><label><input type="checkbox" value="ليبيا" checked> Libya</label></div>
+                                    <div><label><input type="checkbox" value="Lietuva" checked> Lithuania</label></div>
+                                    <div><label><input type="checkbox" value="Lëtzebuerg" checked> Luxembourg</label></div>
+                                    <div><label><input type="checkbox" value="Македонија" checked> Macedonia</label></div>
+                                    <div><label><input type="checkbox" value="Malawi" checked> Malawi</label></div>
+                                    <div><label><input type="checkbox" value="Malaysia" checked> Malaysia</label></div>
+                                    <div><label><input type="checkbox" value="Malta" checked> Malta</label></div>
+                                    <div><label><input type="checkbox" value="México" checked> Mexico</label></div>
+                                    <div><label><input type="checkbox" value="Maroc ⵍⵎⵖⵔⵉⴱ المغرب" checked> Morocco</label></div>
+                                    <div><label><input type="checkbox" value="Moçambique" checked> Mozambique</label></div>
+                                    <div><label><input type="checkbox" value="Nederland" checked> Netherlands</label></div>
+                                    <div><label><input type="checkbox" value="New Zealand / Aotearoa" checked> New Zealand</label></div>
+                                    <div><label><input type="checkbox" value="Nicaragua" checked> Nicaragua</label></div>
+                                    <div><label><input type="checkbox" value="Nigeria" checked> Nigeria</label></div>
+                                    <div><label><input type="checkbox" value="Norge" checked> Norway</label></div>
+                                    <div><label><input type="checkbox" value="조선민주주의인민공화국" checked> North Korea</label></div>
+                                    <div><label><input type="checkbox" value="عمان" checked> Oman</label></div>
+                                    <div><label><input type="checkbox" value="پاکستان" checked> Pakistan</label></div>
+                                    <div><label><input type="checkbox" value="الأراضي الفلسطينية" checked> Palestine</label></div>
+                                    <div><label><input type="checkbox" value="Panamá" checked> Panama</label></div>
+                                    <div><label><input type="checkbox" value="Perú" checked> Peru</label></div>
+                                    <div><label><input type="checkbox" value="Philippines" checked> Philippines</label></div>
+                                    <div><label><input type="checkbox" value="Polska" checked> Poland</label></div>
+                                    <div><label><input type="checkbox" value="Portugal" checked> Portugal</label></div>
+                                    <div><label><input type="checkbox" value="România" checked> Romania</label></div>
+                                    <div><label><input type="checkbox" value="Rwanda" checked> Rwanda</label></div>
+                                    <div><label><input type="checkbox" value="المملكة العربية السعودية" checked> Saudi Arabia</label></div>
+                                    <div><label><input type="checkbox" value="Senegal" checked> Senegal</label></div>
+                                    <div><label><input type="checkbox" value="Србија" checked> Serbia</label></div>
+                                    <div><label><input type="checkbox" value="Sierra Leone" checked> Sierra Leone</label></div>
+                                    <div><label><input type="checkbox" value="Singapore" checked> Singapore</label></div>
+                                    <div><label><input type="checkbox" value="Soomaaliya الصومال" checked> Somalia</label></div>
+                                    <div><label><input type="checkbox" value="South Africa" checked> South Africa</label></div>
+                                    <div><label><input type="checkbox" value="한국" checked> South Korea</label></div>
+                                    <div><label><input type="checkbox" value="South Sudan" checked> South Sudan</label></div>
+                                    <div><label><input type="checkbox" value="España" checked> Spain</label></div>
+                                    <div><label><input type="checkbox" value="Sverige" checked> Sweden</label></div>
+                                    <div><label><input type="checkbox" value="Schweiz/Suisse/Svizzera/Svizra" checked> Switzerland</label></div>
+                                    <div><label><input type="checkbox" value="سوريا" checked> Syria</label></div>
+                                    <div><label><input type="checkbox" value="中華民國" checked> Taiwan</label></div>
+                                    <div><label><input type="checkbox" value="ประเทศไทย" checked> Thailand</label></div>
+                                    <div><label><input type="checkbox" value="Togo" checked> Togo</label></div>
+                                    <div><label><input type="checkbox" value="Trinidad and Tobago" checked> Trinidad and Tobago</label></div>
+                                    <div><label><input type="checkbox" value="تونس" checked> Tunisia</label></div>
+                                    <div><label><input type="checkbox" value="Türkiye" checked> Turkey</label></div>
+                                    <div><label><input type="checkbox" value="Україна" checked> Ukraine</label></div>
+                                    <div><label><input type="checkbox" value="United Kingdom" checked> United Kingdom</label></div>
+                                    <div><label><input type="checkbox" value="United States" checked> United States</label></div>
+                                    <div><label><input type="checkbox" value="Uruguay" checked> Uruguay</label></div>
+                                    <div><label><input type="checkbox" value="Venezuela" checked> Venezuela</label></div>
+                                    <div><label><input type="checkbox" value="Việt Nam" checked> Vietnam</label></div>
+                                    <div><label><input type="checkbox" value="اليمن" checked> Yemen</label></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
             </div>
             <!-- Apply filters button -->
 
@@ -113,12 +241,11 @@
         <div class="chart" id="streamgraph"></div>
 
     </div>
-    <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="javascript/filter.js"></script>
     <script src="javascript/linechart.js"></script>
     <!-- <script src="script/linked.js"></script> -->
-    <script src="javascript/mapchart.js"></script>
+    <!-- <script src="script/map.js"></script> -->
     <script src="javascript/parallelcoords.js"></script>
     <script src="javascript/streamgraph.js"></script>
     <script src="javascript/sidebar.js"></script>
