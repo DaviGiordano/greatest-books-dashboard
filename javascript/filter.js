@@ -2,6 +2,7 @@
 document.getElementById("filterButton").addEventListener("click", updateFilteredData);
 
 const genreCheckboxes = document.querySelectorAll('#genreCheckboxList input[type="checkbox"]');
+const countryCheckboxes = document.querySelectorAll('#countryCheckboxList input[type="checkbox"]');
 
 function selectAllGenres() {
     genreCheckboxes.forEach(function (checkbox) {
@@ -15,6 +16,18 @@ function clearAllGenres() {
     });
 }
 
+function selectAllCountries() {
+    countryCheckboxes.forEach(function (checkbox) {
+        checkbox.checked = true;
+    });
+}
+
+function clearAllCountries() {
+    countryCheckboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+    });
+}
+
 
 // Function to get the selected genres from the dropdown
 function getSelectedGenres() {
@@ -23,6 +36,15 @@ function getSelectedGenres() {
         .map(checkbox => checkbox.value);
 
     return selectedGenres;
+}
+
+// Function to get the selected countries from the dropdown
+function getSelectedCountries() {
+    const selectedCountries = Array.from(countryCheckboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+
+    return selectedCountries;
 }
 
 function updateFilteredData() {
@@ -43,10 +65,14 @@ function updateFilteredData() {
     // Get the selected genres from the dropdown
     const selectedGenres = getSelectedGenres();
 
+    // Get the selected countries from the dropdown
+    const selectedCountries = getSelectedCountries();
+
     // Logs the selected filters
     console.log("updateFilteredData called with minPages:", minPages, "and maxPages:", maxPages);
     console.log("Start Date:", startDate, "End Date:", endDate);
     console.log("Selected Genres:", selectedGenres);
+    console.log("Selected Countries:", selectedCountries);
 
     // Filter the data based on the selected range of pages and dates
     globalFilteredData = globalInitialData.filter(function (d) {
@@ -57,7 +83,8 @@ function updateFilteredData() {
             bookDate >= startDate &&
             bookDate <= endDate &&
             // selectedGenres.some(genre => d.genres.includes(genre))// && // Check if the book has at least one selected genre
-            selectedGenres.includes(d.first_genre)
+            selectedGenres.includes(d.first_genre) &&
+            selectedCountries.includes(d.country)
         );
     });
 
@@ -65,5 +92,4 @@ function updateFilteredData() {
     drawLineChart(globalFilteredData);
     createStreamGraph(globalFilteredData);
     createParallelCoords(globalFilteredData);
-    createMapChart(globalFilteredData);
 }
