@@ -234,9 +234,16 @@
             <!-- <svg width="600" height="300"></svg> -->
         </div>
         <div id="linechartContainer">
-
+            <div id="metricDropdown">
+                <label for="selectMetric">Select Metric:</label>
+                <select id="selectMetric">
+                    <option value="rating">Rating</option>
+                    <option value="num_awards">Number of Awards</option>
+                    <option value="num_ratings">Number of Ratings</option>
+                    <option value="average">Average</option>
+                </select>
+            </div>
             <div class="chart" id="linechart"></div>
-
         </div>
         <div class="chart" id="streamgraph"></div>
 

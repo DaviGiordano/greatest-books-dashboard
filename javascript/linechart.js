@@ -1,5 +1,17 @@
 // Global variables
 
+// Get a reference to the select element
+const selectMetric = document.getElementById("selectMetric");
+
+// Add an event listener to respond to changes in the selected metric
+selectMetric.addEventListener("change", function () {
+    selectedMetric = selectMetric.value;
+
+    // Call a function to update the linechart with the selected metric
+    drawLineChart(globalFilteredData); // You need to implement this function
+});
+
+var selectedMetric = "rating"
 var toggleAverageLineChart = 0;
 
 document.getElementById("toggleAverageLineChart").addEventListener("click", () => {
@@ -9,64 +21,43 @@ document.getElementById("toggleAverageLineChart").addEventListener("click", () =
 });
 
 function drawLineChart(data) {
+  console.log(selectedMetric)
   // Filters empty rows
   localFilteredData = data.filter(function (d) {
-    return d.norm_rating != "" && d.norm_num_awards != "" && d.norm_num_ratings != "" && d.pages != "" && d.num_in_series != "";
+    return d.norm_rating != "" && d.norm_num_awards != "" && d.norm_num_ratings != "" && d.pages != "" && d.num_in_series != ""
+    && d.rating != "" && d.numRatings != "" && d.num_awards != "";
   });
   // Clear the previous chart if it exists
   d3.select("#linechart").selectAll("*").remove();
-  console.log("Data for path creation:", localFilteredData);
+  // console.log("Data for path creation:", localFilteredData);
 
-  const data_norm_rating = create_data_list("norm_rating");
-  const data_norm_num_awards = create_data_list("norm_num_awards");
-  const data_norm_num_ratings = create_data_list("norm_num_ratings");
+  // Create the SVG container.
+  const svg = d3
+  .select("#linechart")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const data_average = [];
-  if (toggleAverageLineChart == 1) {
 
-    for (let i = 0; i < data_norm_rating.length; i++) {
+  // Get the currently filtered genres
+  let usedGenres = new Set();
+  localFilteredData.forEach(d => {
+      usedGenres.add(d.first_genre);
+  });
 
-      var norm_rating = data_norm_rating[i][1]
-      var norm_num_awards = data_norm_num_awards[i][1]
-      var norm_num_ratings = data_norm_num_ratings[i][1]
+  var allGenres = ["Fantasy", "Historical Fiction", "Poetry", "Science Fiction", "Adventure", "Horror", "Mystery", "Religion", "Biography", "Self Help", "Science", "Business"]
+ 
+  const colorKeys = [
+      '#a6cee3', '#1f78b4', '#b2df8a', '#33a02c',
+      '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00',
+      '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'
+  ];
 
-      data_average.push([data_norm_rating[i][0], (norm_rating + norm_num_awards + norm_num_ratings) / 3]);
-    }
-  }
-
-  function avg_y(x, attribute) {
-    var count = 0;
-    var attrSum = 0;
-    localFilteredData.forEach((element) => {
-      if (element.num_in_series == x) {
-        switch (attribute) {
-          case "norm_rating":
-            attrSum = attrSum + element.norm_rating;
-            break;
-          case "norm_num_awards":
-            attrSum = attrSum + element.norm_num_awards;
-            break;
-          case "norm_num_ratings":
-            attrSum = attrSum + element.norm_num_ratings;
-            break;
-        }
-        count = count + 1;
-      }
-    });
-    var avg_y = attrSum / count;
-    return avg_y;
-  }
-
-  function create_data_list(attribute) {
-    const data_list = [];
-    const max_x = d3.max(localFilteredData, (d) => d.num_in_series);
-    for (let i = 0; i < max_x; i++) {
-      if (avg_y(i, attribute)) {
-        data_list.push([i, avg_y(i, attribute)]);
-      }
-    }
-    return data_list;
-  }
+  const color = d3.scaleOrdinal()
+  .domain(allGenres)  // 12 keys
+  .range(colorKeys);
 
   // Create x and y scales for the line chart
   const xScale = d3
@@ -77,25 +68,110 @@ function drawLineChart(data) {
     ])
     .range([5, width]);
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([-1, 1,])
-    .range([height, 0]);
+  var yScale;
 
-  const yScale_norm_rating = d3
-    .scaleLinear()
-    .domain([-1,1])
-    .range([height, 0]);
+  // var domain_min;
+  // var domain_max;
+  // switch(selectedMetric){
+  //   case "rating":
+  //   domain_min = d3.min(localFilteredData, (d) => d.rating);
+  //   domain_max = d3.max(localFilteredData, (d) => d.rating);
+  //   break;
+  //   case "num_awards":
+  //     domain_min = d3.min(localFilteredData, (d) => d.num_awards);
+  //     domain_max = d3.max(localFilteredData, (d) => d.num_awards);
+  //     break;
+  //   case "num_ratings":
+  //     domain_min = d3.min(localFilteredData, (d) => d.numRatings);
+  //     domain_max = d3.max(localFilteredData, (d) => d.numRatings);
+  //     break;
+  //   case "average":
+  //     domain_min = -1; //using normalized metric
+  //     domain_max = 1;
+  //     break;
+  // }
+  
+  // const yScale = d3
+  //   .scaleLinear()
+  //   .domain([domain_min, domain_max,])
+  //   .range([height, 0]);
 
-  const yScale_norm_num_awards = d3
-    .scaleLinear()
-    .domain([-1,1])
-    .range([height, 0]);
+  
+  var groupedByGenre = d3.group(localFilteredData, (d) => d.first_genre)
+  
+  groupedByGenre.forEach((group, key) => {
+   
+    // Group the data based on the 'num_in_series' attribute
+  var groupedData = d3.group(group, (d) => d.num_in_series);
 
-  const yScale_norm_num_ratings = d3
+  // Lists for the different attributes we want to display
+  var data_list = []
+
+  // Calculate the aggregate values for each group
+  //norm rating
+  groupedData.forEach((group, key) => {
+    switch (selectedMetric){
+      case "rating":
+        var mean = d3.mean(group, (d) => d.rating);
+        data_list.push({ num_in_series: key, value: mean });
+        break;
+      case "num_awards":
+        var mean = d3.mean(group, (d) => d.num_awards);
+        data_list.push({ num_in_series: key, value: mean });
+        break;
+      case "num_ratings":
+        var mean = d3.mean(group, (d) => d.numRatings);
+        data_list.push({ num_in_series: key, value: mean });
+        break;
+      case "average":
+        var norm_rating = d3.mean(group, (d) => d.norm_rating);
+        var norm_num_awards = d3.mean(group, (d) => d.norm_num_awards);
+        var norm_num_ratings = d3.mean(group, (d) => d.norm_num_ratings);
+        var mean_metrics = (norm_rating + norm_num_awards + norm_num_ratings) / 3;
+        data_list.push({ num_in_series: key, value: mean_metrics });
+        break;
+        
+    }
+  });
+
+
+let domain_min = data_list[0].value;
+let domain_max = data_list[0].value;
+
+for (let i = 1; i < data_list.length; i++) {
+  const currentValue = data_list[i].value;
+  if (currentValue < domain_min) {
+    domain_min = currentValue;
+  }
+  if (currentValue > domain_max) {
+    domain_max = currentValue;
+  }
+}
+  yScale = d3
     .scaleLinear()
-    .domain([-1,1])
+    .domain([domain_min*0.7, domain_max*1.2,])
     .range([height, 0]);
+  
+  //sort so that #1 and so on...
+  data_list.sort((a, b) => a.num_in_series - b.num_in_series);
+
+  var line = d3.line()
+  .x(function (d) { return xScale(d.num_in_series); })
+  .y(function (d) { return yScale(d.value); })
+  .curve(d3.curveMonotoneX)
+svg.append("path")
+  .attr("fill", "none")
+  .attr("stroke", color(key))
+  .attr("stroke-width", 1.3)
+  .attr("d", line(data_list));
+
+
+  });
+
+  
+
+
+  
 
   // Creating legend
   var keys = ["Rating", "Number of Awards", "Number of Reviews"]
@@ -104,92 +180,7 @@ function drawLineChart(data) {
     keys = ["Rating", "Number of Awards", "Number of Reviews", "Average"]
   }
 
-  var color = d3.scaleOrdinal()
-    .domain(keys)
-    .range(d3.schemeSet2);
-
-  // Create the SVG container.
-  const svg = d3
-    .select("#linechart")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  var line_norm_rating = d3.line()
-    .x(function (d) { return xScale(d[0]); })
-    .y(function (d) { return yScale_norm_rating(d[1]); })
-    .curve(d3.curveMonotoneX)
-
-  svg.append("path")
-    .attr("fill", "none")
-    .attr("stroke", color("Rating"))
-    .attr("stroke-width", 1.5)
-    .attr("d", line_norm_rating(data_norm_rating));
-
-  var line_norm_num_awards = d3.line()
-    .x(function (d) { return xScale(d[0]); })
-    .y(function (d) { return yScale_norm_num_awards(d[1]); })
-    .curve(d3.curveMonotoneX)
-
-  svg.append("path")
-    .attr("fill", "none")
-    .attr("stroke", color("Number of Awards"))
-    .attr("stroke-width", 1.5)
-    .attr("d", line_norm_num_awards(data_norm_num_awards));
-
-  var line_norm_num_ratings = d3.line()
-    .x(function (d) { return xScale(d[0]); })
-    .y(function (d) { return yScale_norm_num_ratings(d[1]); })
-    .curve(d3.curveMonotoneX)
-
-  svg.append("path")
-    .attr("fill", "none")
-    .attr("stroke", color("Number of Reviews"))
-    .attr("stroke-width", 1.5)
-    .attr("d", line_norm_num_ratings(data_norm_num_ratings));
-
-  if (toggleAverageLineChart) {
-    var line_average = d3.line()
-      .x(function (d) { return xScale(d[0]); })
-      .y(function (d) { return yScale(d[1]); })
-      .curve(d3.curveMonotoneX)
-
-    svg.append("path")
-      .attr("fill", "none")
-      .attr("stroke", "red")
-      .attr("stroke-width", 1.5)
-      .attr("d", line_average(data_average));
-  }
-
-  // Creating legend
-  svg.selectAll("mydots")
-    .data(keys)
-    .enter()
-    .append("circle")
-    .attr("cx", width - 140)
-    .attr("cy", function (d, i) { return 0 + i * 25 }) // 100 is where the first dot appears. 25 is the distance between dots
-    .attr("r", 5)
-    .style("fill", function (d) { 
-      if (d === "Average") {
-        return "red"; // Set the color to red for the "Average" key
-      } else {
-        return color(d);
-      }
-    })
-
-  // Add one text in the legend for each name.
-  svg.selectAll("mylabels")
-    .data(keys)
-    .enter()
-    .append("text")
-    .attr("x", width - 130)
-    .attr("y", function (d, i) { return 0 + i * 25 }) //25 is the distance between dots
-    // .style("fill", function (d) { return color(d) })
-    .text(function (d) { return d })
-    .attr("text-anchor", "left")
-    .style("alignment-baseline", "middle")
+ 
 
   // Create tick marks and labels for the x and y axes
   var xTicks = [];
@@ -236,7 +227,7 @@ function drawLineChart(data) {
     .append("text")
     .attr("class", "y-axis-label")
     .attr("x", -height / 2)
-    .attr("y", -margin.left + 30)
+    .attr("y", -margin.left + 15)
     .style("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
     .text("Success metric");
