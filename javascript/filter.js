@@ -92,4 +92,5 @@ function updateFilteredData() {
     drawLineChart(globalFilteredData);
     createStreamGraph(globalFilteredData);
     createParallelCoords(globalFilteredData);
+    createMapChart(globalFilteredData);     
 }
