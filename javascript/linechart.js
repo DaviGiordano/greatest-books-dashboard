@@ -30,6 +30,7 @@ function drawLineChart(data) {
   // Clear the previous chart if it exists
   d3.select("#linechart").selectAll("*").remove();
   // console.log("Data for path creation:", localFilteredData);
+  
 
   // Create the SVG container.
   const svg = d3

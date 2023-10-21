@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 html, body{
     margin: 0;
     padding: 0;
@@ -6,38 +11,49 @@ html, body{
     background-color: #f4f4f4;
 }
 
+#container{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
 
 #dashboard{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;    
-    width: fill;
-    height: 100%;
-    /* margin: 10p  x; */
-    gap: 10px;
-    
+    width:100%;
+    height: 100%;   
+    margin-left: 10px;
 }
 .chart{
-    /* background-color: bisque; */
-    border: 1px rgb(0, 0, 0);   
+    /* border: 2px solid rgb(173, 173, 173);    */
+    border-radius: 4px;
     width: fit-content;
+    height: fit-content;
+    background-color: white;
+    box-shadow: 10px 10px 50px -54px rgba(0,0,0,1);
+
 }
 
+#parallelcoords, #mapchart{
+    margin-top: 10px;
+
+}
 #linechartContainer{
     height: fit-content;
     width: fit-content;
+    padding-top: 8px;
 }
 
 .show-average-lineChart{
-    /* position: absolute;
-    /* translate: (500, 500); */
     left: 400px;
     top: 10px;
 }
 
 h1 {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-}
+}   
 text{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -45,8 +61,7 @@ input, label{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }
-/* h1 { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } h3 { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } p { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } blockquote { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } pre { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; } */
-/* 
-.show-average-lineChart{
-    margin-top: 5px;
-} */
+
+#metricDropdown{
+    margin-left: 8px;
+}

@@ -1,7 +1,7 @@
 // Function that creates a chart using rawData
 function createStreamGraph(rawData) {
 
-  legendWidth = 130;
+  legendWidth = 0;
   localFilteredData = rawData.filter(function (d) {
     return d.book_count != "" && d.year != "" && d.first_genre != "";
   });
@@ -13,7 +13,7 @@ function createStreamGraph(rawData) {
     .select("#streamgraph")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", height + margin.top + margin.bottom + 28)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -119,27 +119,27 @@ const color = d3.scaleOrdinal()
         })(d);
     });
 
-  // Create legend
-  const legend = svg.append("g")
-    .attr("transform", `translate(${width-legendWidth+18},0)`);  // Adjust the position accordingly
+  // // Create legend
+  // const legend = svg.append("g")
+  //   .attr("transform", `translate(${width-legendWidth+18},0)`);  // Adjust the position accordingly
 
-  selected_keys.reverse().forEach((key, i) => {
-    const legendRow = legend.append("g")
-      .attr("transform", `translate(0,${i * 20})`);
+  // selected_keys.reverse().forEach((key, i) => {
+  //   const legendRow = legend.append("g")
+  //     .attr("transform", `translate(0,${i * 20})`);
 
-    legendRow.append("circle")
-      .attr("r", 5)
-      .attr("transform", `translate(0,5)`)
-      // .attr("height", 10)
-      .attr("fill", color(key));
+  //   legendRow.append("circle")
+  //     .attr("r", 5)
+  //     .attr("transform", `translate(0,5)`)
+  //     // .attr("height", 10)
+  //     .attr("fill", color(key));
 
-    legendRow.append("text")
-      .attr("x", 15)
-      .attr("y", 10)
-      .attr("text-anchor", "start")
-      .style("text-transform", "capitalize")
-      .text(key);
+  //   legendRow.append("text")
+  //     .attr("x", 15)
+  //     .attr("y", 10)
+  //     .attr("text-anchor", "start")
+  //     .style("text-transform", "capitalize")
+  //     .text(key);
 
-  });
+  // });
 
 }

@@ -44,14 +44,14 @@ function createParallelCoords(rawData) {
             .range([height, 0]);
     }
 
-    // Redefining pages yAxis
-    y['rating'] = d3.scaleLinear()
-        .domain([0, 5])
-        .range([height, 0]);
+    // // Redefining pages yAxis
+    // y['rating'] = d3.scaleLinear()
+    //     .domain([0, 5])
+    //     .range([height, 0]);
 
     // Build the X scale -> it find the best position for each Y axis
     x = d3.scalePoint()
-        .range([0, width])
+        .range([0, width- margin.right-20])
         .domain(dimensions);
 
     // path function
@@ -81,7 +81,7 @@ function createParallelCoords(rawData) {
         // I translate this element to its right position on the x axis
         .attr("transform", function (d) { return `translate(${x(d)})` })
         // And I build the axis with the call function
-        .each(function (d) { d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d])); })
+        .each(function (d) { d3.select(this).call(d3.axisLeft().ticks(8).scale(y[d])); })
         // Add axis title
         .append("text")
         .style("text-anchor", "middle")

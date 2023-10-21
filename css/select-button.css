@@ -1,0 +1,104 @@
+.pill-container input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+  }
+/* /*    */
+  .pill-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: fit-content;
+
+  }
+
+
+  /* 
+  .pill-container .option-a {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  
+  .pill-container .selector:last-child {
+    border-right: 2px solid #5183f5;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  /*  */
+  .selector {
+    margin-left: 4px;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* background: #92aefc;  */
+    user-select: none; /* Standard syntax */
+    font-size: 14px;
+
+  }
+
+#Adventure{
+  background-color: #fb9a99;
+/* const colorKeys = [
+     "Horror", "Mystery", "Religion", "Biography", "Self Help", "Science", "Business"] 
+    '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'
+   */
+}
+
+#Biography{
+  background-color: #cab2d6;
+
+}
+#Business{
+  background-color: #b15928;
+  color: #ebebeb;
+
+}
+#Fantasy{
+  background-color: #a6cee3;
+}
+#HistoricalFiction{
+  background-color: #1f78b4;
+  color: #ebebeb;
+
+}
+#Horror{
+  background-color: #e31a1c;
+  color: #ebebeb;
+}
+#Mystery{
+  background-color: #fdbf6f;
+}
+#Poetry{
+  background-color: #b2df8a;
+}
+#Religion{
+  background-color: #ff7f00;
+
+}
+#Science{
+  background-color: #ffff99;
+
+}
+#SelfHelp{
+  background-color: #6a3d9a;
+  color: #ebebeb;
+
+}
+#ScienceFiction{
+  background-color: #33a02c;
+  color: #ebebeb;
+
+}
+
+input[type="checkbox"]:checked + label {
+    opacity: 1;
+}
+
+input[type="checkbox"]:not(:checked) + label {
+  opacity: 0.2;
+  /* background-color: grey; */
+}
