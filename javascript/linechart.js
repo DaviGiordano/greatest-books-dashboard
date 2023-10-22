@@ -1,35 +1,29 @@
 // Global variables
 
-// Get a reference to the select element
 const selectMetric = document.getElementById("selectMetric");
+
+ // Get selected metric
+ var selectedMetric = "rating"
 
 // Add an event listener to respond to changes in the selected metric
 selectMetric.addEventListener("change", function () {
-    selectedMetric = selectMetric.value;
+  selectedMetric = selectMetric.value;
 
-    // Call a function to update the linechart with the selected metric
-    drawLineChart(globalFilteredData); // You need to implement this function
+  // Call a function to update the linechart with the selected metric
+  drawLineChart(globalFilteredData); // You need to implement this function
 });
 
-var selectedMetric = "rating"
-var toggleAverageLineChart = 0;
-
-document.getElementById("toggleAverageLineChart").addEventListener("click", () => {
-  toggleAverageLineChart = toggleAverageLineChart === 0 ? 1 : 0; // Toggle between 1 and 0
-  console.log(`toggleAverageLineChart is now: ${toggleAverageLineChart}`);
-  drawLineChart(globalFilteredData);
-});
 
 function drawLineChart(data) {
-  console.log(selectedMetric)
   // Filters empty rows
   localFilteredData = data.filter(function (d) {
     return d.norm_rating != "" && d.norm_num_awards != "" && d.norm_num_ratings != "" && d.pages != "" && d.num_in_series != ""
     && d.rating != "" && d.numRatings != "" && d.num_awards != "";
   });
+
+ console.log("filtered data", localFilteredData)
   // Clear the previous chart if it exists
   d3.select("#linechart").selectAll("*").remove();
-  // console.log("Data for path creation:", localFilteredData);
   
 
   // Create the SVG container.
@@ -61,15 +55,26 @@ function drawLineChart(data) {
   .range(colorKeys);
 
   // Create x and y scales for the line chart
-  const xScale = d3
+  var xScale = d3
     .scaleLinear()
     .domain([
       d3.min(localFilteredData, (d) => d.num_in_series),
       d3.max(localFilteredData, (d) => d.num_in_series),
-    ])
+    ])  
     .range([5, width]);
 
-  var yScale; //init yScale here, changes later depending on which attribute is displayed
+    if(localFilteredData.length == 0){
+      xScale = d3
+      .scaleLinear()
+      .domain([0,1])
+      .range([5, width]);
+    }
+
+    //yScale changes later depending on the specific attribute values
+    var yScale = d3
+    .scaleLinear()
+    .domain([0, 1])
+    .range([height -20, 0]);
 
   
   var groupedByGenre = d3.group(localFilteredData, (d) => d.first_genre);
@@ -78,7 +83,7 @@ function drawLineChart(data) {
   var domain_max = Number.MIN_VALUE; //used for setting yScale max
 
   groupedByGenre.forEach((group, key) => {
-   
+  if(key != ""){
     // Group the data based on the 'num_in_series' attribute
   var groupedData = d3.group(group, (d) => d.num_in_series);
 
@@ -122,7 +127,6 @@ for (let i = 1; i < data_list.length; i++) {
     domain_max = currentValue;
   }
 }
-
 if(selectedMetric != "average"){
   yScale = d3
   .scaleLinear()
@@ -135,6 +139,7 @@ else if(selectedMetric == "average"){
 .domain([domain_min, domain_max*1.2,])
 .range([height -20, 0]);
 }
+
   
 //sort so that #1 and so on...
 data_list.sort((a, b) => a.num_in_series - b.num_in_series);
@@ -196,22 +201,9 @@ svg.append("path")
     d3.select("#hover-text").remove();
   }
 
-
+  }
   });
 
-  
-
-
-  
-
-  // Creating legend
-  var keys = ["Rating", "Number of Awards", "Number of Reviews"]
-
-  if (toggleAverageLineChart) {
-    keys = ["Rating", "Number of Awards", "Number of Reviews", "Average"]
-  }
-
- 
 
   // Create tick marks and labels for the x and y axes
   var xTicks = [];

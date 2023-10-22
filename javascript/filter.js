@@ -1,8 +1,12 @@
 // handleFilters function
-document.getElementById("filterButton").addEventListener("click", updateFilteredData);
+document.getElementById("filter-box").addEventListener("click", updateFilteredData);
 
-const genreCheckboxes = document.querySelectorAll('#genreCheckboxList input[type="checkbox"]');
-const countryCheckboxes = document.querySelectorAll('#countryCheckboxList input[type="checkbox"]');
+//const genreCheckboxes = document.querySelectorAll('#genreCheckboxList input[type="checkbox"]');
+//const countryCheckboxes = document.querySelectorAll('#countrySelect input[type="checkbox"]');
+const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
+const countrySelect = document.getElementById('countrySelect');
+
+
 
 function selectAllGenres() {
     genreCheckboxes.forEach(function (checkbox) {
@@ -29,20 +33,23 @@ function clearAllCountries() {
 }
 
 
-// Function to get the selected genres from the dropdown
+// Function to get selected genres
 function getSelectedGenres() {
-    const selectedGenres = Array.from(genreCheckboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
+    const selectedGenres = [];
+
+    genreCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedGenres.push(checkbox.value);
+        }
+    });
 
     return selectedGenres;
 }
 
 // Function to get the selected countries from the dropdown
 function getSelectedCountries() {
-    const selectedCountries = Array.from(countryCheckboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
+ 
+    const selectedCountries = Array.from(countrySelect.selectedOptions).map(option => option.value);
 
     return selectedCountries;
 }
@@ -53,10 +60,10 @@ function updateFilteredData() {
      * Updates the globalFilteredData variable
      * Calls drawer functiond
      */
-
     // Get the user's input for minimum and maximum pages
-    const minPages = +document.getElementById("minPages").value;
-    const maxPages = +document.getElementById("maxPages").value;
+    const minPages = +document.getElementById("fromSlider").value;
+    const maxPages = +document.getElementById("toSlider").value;
+  
 
     // Get the user's input for start and end dates
     const startDate = new Date(document.getElementById("startDate").value);
