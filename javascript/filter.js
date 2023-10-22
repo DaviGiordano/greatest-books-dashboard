@@ -1,12 +1,16 @@
 // handleFilters function
 document.getElementById("filter-box").addEventListener("click", updateFilteredData);
 
-//const genreCheckboxes = document.querySelectorAll('#genreCheckboxList input[type="checkbox"]');
-//const countryCheckboxes = document.querySelectorAll('#countrySelect input[type="checkbox"]');
 const genreCheckboxes = document.querySelectorAll('.genre-checkbox');
 const countrySelect = document.getElementById('countrySelect');
 
+// Select All button
+const selectAllGenresButton = document.getElementById('selectAllButton');
+selectAllButton.addEventListener('click', selectAllGenres);
 
+// Clear All button
+const clearAllGenresButton = document.getElementById('clearAllButton');
+clearAllButton.addEventListener('click', clearAllGenres);
 
 function selectAllGenres() {
     genreCheckboxes.forEach(function (checkbox) {
