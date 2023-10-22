@@ -69,37 +69,14 @@ function drawLineChart(data) {
     ])
     .range([5, width]);
 
-  var yScale;
-
-  // var domain_min;
-  // var domain_max;
-  // switch(selectedMetric){
-  //   case "rating":
-  //   domain_min = d3.min(localFilteredData, (d) => d.rating);
-  //   domain_max = d3.max(localFilteredData, (d) => d.rating);
-  //   break;
-  //   case "num_awards":
-  //     domain_min = d3.min(localFilteredData, (d) => d.num_awards);
-  //     domain_max = d3.max(localFilteredData, (d) => d.num_awards);
-  //     break;
-  //   case "num_ratings":
-  //     domain_min = d3.min(localFilteredData, (d) => d.numRatings);
-  //     domain_max = d3.max(localFilteredData, (d) => d.numRatings);
-  //     break;
-  //   case "average":
-  //     domain_min = -1; //using normalized metric
-  //     domain_max = 1;
-  //     break;
-  // }
-  
-  // const yScale = d3
-  //   .scaleLinear()
-  //   .domain([domain_min, domain_max,])
-  //   .range([height, 0]);
+  var yScale; //init yScale here, changes later depending on which attribute is displayed
 
   
-  var groupedByGenre = d3.group(localFilteredData, (d) => d.first_genre)
-  
+  var groupedByGenre = d3.group(localFilteredData, (d) => d.first_genre);
+
+  var domain_min = Number.MAX_VALUE; //used for setting yScale min
+  var domain_max = Number.MIN_VALUE; //used for setting yScale max
+
   groupedByGenre.forEach((group, key) => {
    
     // Group the data based on the 'num_in_series' attribute
@@ -136,9 +113,6 @@ function drawLineChart(data) {
   });
 
 
-let domain_min = data_list[0].value;
-let domain_max = data_list[0].value;
-
 for (let i = 1; i < data_list.length; i++) {
   const currentValue = data_list[i].value;
   if (currentValue < domain_min) {
@@ -148,23 +122,79 @@ for (let i = 1; i < data_list.length; i++) {
     domain_max = currentValue;
   }
 }
-  yScale = d3
-    .scaleLinear()
-    .domain([domain_min*0.7, domain_max*1.2,])
-    .range([height, 0]);
-  
-  //sort so that #1 and so on...
-  data_list.sort((a, b) => a.num_in_series - b.num_in_series);
 
-  var line = d3.line()
-  .x(function (d) { return xScale(d.num_in_series); })
-  .y(function (d) { return yScale(d.value); })
-  .curve(d3.curveMonotoneX)
+if(selectedMetric != "average"){
+  yScale = d3
+  .scaleLinear()
+  .domain([0, domain_max*1.2,])
+  .range([height-20, 0]);
+}
+else if(selectedMetric == "average"){
+  yScale = d3
+.scaleLinear()
+.domain([domain_min, domain_max*1.2,])
+.range([height -20, 0]);
+}
+  
+//sort so that #1 and so on...
+data_list.sort((a, b) => a.num_in_series - b.num_in_series);
+
+const genre = d3.extent(group, (d) => d.first_genre)[0]; //used for displaying genre when hovering
+
+
+var line = d3.line()
+.x(function (d) { return xScale(d.num_in_series); })
+.y(function (d) { return yScale(d.value); })
+.curve(d3.curveMonotoneX)
 svg.append("path")
   .attr("fill", "none")
   .attr("stroke", color(key))
-  .attr("stroke-width", 1.3)
-  .attr("d", line(data_list));
+  .attr("stroke-width", 1.8)
+  .attr("d", line(data_list))
+  .on("mouseover", handleMouseOver)
+  .on("mouseout", handleMouseOut);
+
+  svg.append("rect")
+  .attr("id", "hover-rect")
+  .style("display", "none");
+
+
+
+
+  function handleMouseOver(event) {
+    const [x, y] = d3.pointer(event);
+    const textWidth = genre.length * 7; // Set the desired text width
+    const textHeight = 20; // Set the desired text height
+
+    const rectWidth = textWidth + 6;
+    const rectHeight = textHeight + 3;
+
+  d3.select("#hover-rect")
+    .attr("width", rectWidth)
+    .attr("height", rectHeight)
+    .attr("x", x + 13)
+    .attr("y", y - 38)
+    .attr("rx", 5) // Rounded edges
+    .attr("ry", 5)
+    .style("fill", color(key))
+    .style("display", "block");
+
+  // Calculate the x position to center the text in the rectangle
+  const textX = x + 13 + rectWidth / 2 - textWidth / 2;
+
+  svg.append("text")
+    .attr("id", "hover-text")
+    .attr("x", textX)
+    .attr("y", y - 20)
+    .attr("font-size", "14px")
+    .text(genre);
+  }
+
+  function handleMouseOut() {
+    d3.select("#hover-rect")
+      .style("display", "none");
+    d3.select("#hover-text").remove();
+  }
 
 
   });
@@ -186,15 +216,27 @@ svg.append("path")
   // Create tick marks and labels for the x and y axes
   var xTicks = [];
   var yTicks = [];
-  for (let index = 0; index <= 1; index += 0.25) {
-    xTicks.push(Math.round(xScale.invert(index * width)));
-    yTicks.push(Math.round(yScale.invert(index * height)));
+  if(selectedMetric != "num_ratings"){
+    for (let index = 0; index <= 1; index += 0.05) {
+      xTicks.push(Math.round(xScale.invert(index * width)));
+      yTicks.push(Math.round(yScale.invert(index * (height -20))));
+    }
   }
+  if(selectedMetric == "num_ratings"){
+    for (let index = 0; index <= 1; index += 0.05) {
+      xTicks.push(Math.round(xScale.invert(index * width)));
+    }
+    for (let index = 0; index <= 1; index += 1) {
+      yTicks.push(Math.round(yScale.invert(index * (height-20))));
+    }
+    
+  }
+ 
 
   svg
     .append("g")
     .attr("class", "x-axis")
-    .attr("transform", `translate(0,${height})`)
+    .attr("transform", `translate(0,${height - 20})`)
     .call(
       d3
         .axisBottom(xScale)
@@ -220,16 +262,34 @@ svg.append("path")
     .append("text")
     .attr("class", "x-axis-label")
     .attr("x", width / 2)
-    .attr("y", height + margin.top + 20)
+    .attr("y", height + margin.top - 15)
     .style("text-anchor", "middle")
     .text("# in book series");
 
+  var y_axis_text = "";
+  switch (selectedMetric){
+    case "rating":
+      y_axis_text = "Rating"
+      break;
+    case "num_awards":
+      y_axis_text = "Number of Awards"
+      break;
+    case "num_ratings":
+      y_axis_text = "Numer of Ratings"
+      break;
+    case "average":
+      y_axis_text = "Average"
+      break;
+  }
+  
   svg
     .append("text")
     .attr("class", "y-axis-label")
     .attr("x", -height / 2)
-    .attr("y", -margin.left + 15)
+    .attr("y", -margin.left + 20)
     .style("text-anchor", "middle")
     .attr("transform", "rotate(-90)")
-    .text("Success metric");
+    .text(y_axis_text);
 }
+
+
