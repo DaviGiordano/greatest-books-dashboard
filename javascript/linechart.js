@@ -157,13 +157,25 @@ svg.append("path")
   .attr("stroke-width", 1.8)
   .attr("d", line(data_list))
   .on("mouseover", handleMouseOver)
-  .on("mouseout", handleMouseOut);
+  .on("mouseout", handleMouseOut)
+  .on("click", handleClick);
 
   svg.append("rect")
   .attr("id", "hover-rect")
   .style("display", "none");
 
-
+function handleClick(event){
+  console.log("clicked line for genre", genre)
+  genreCheckboxes.forEach(function (checkbox) {
+    if(checkbox.value == genre){
+      checkbox.checked = true;
+    }
+    else{
+      checkbox.checked = false;
+    }
+    updateFilteredData();
+});
+}
 
 
   function handleMouseOver(event) {
