@@ -53,7 +53,7 @@ function createStreamGraph(rawData) {
   });
   var keys = ["Fantasy", "Historical Fiction", "Poetry", "Science Fiction", "Adventure", "Horror", "Mystery", "Religion", "Biography", "Self Help", "Science", "Business"]
   var selected_keys = Array.from(allGenres);
-  console.log(keys);
+  //console.log(keys);
   
   // Remove empty string from keys
   keys = keys.filter((key) => key !== "");
@@ -83,7 +83,7 @@ const colorKeys = [
   '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00',
   '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'
 ];
-console.log(keys.length);
+//console.log(keys.length);
 
 const color = d3.scaleOrdinal()
   .domain(keys)  // 12 keys
@@ -93,8 +93,8 @@ const color = d3.scaleOrdinal()
   const stackedData = d3.stack().offset(d3.stackOffsetSilhouette).keys(keys)(
     dataArray
   );
-  console.log("-> dataArray", dataArray);
-  console.log("-> stackedData", stackedData);
+  //console.log("-> dataArray", dataArray);
+  //console.log("-> stackedData", stackedData);
   // Show areas
   svg
     .selectAll("mylayers")
@@ -102,22 +102,73 @@ const color = d3.scaleOrdinal()
     .join("path")
     .style("fill", (d, i) => color(i))
     .attr("d", function (d) {
-      // console.log("Data:", d);
       return d3
         .area()
         .x(function (d) {
-          // console.log("x:", d.data.year);
           return x(d.data.year);
         })
         .y0(function (d) {
-          // console.log("y0:", d[0]);
           return y(d[0]);
         })
         .y1(function (d) {
-          // console.log("y1:", d[1]);
           return y(d[1]);
         })(d);
-    });
+    })
+    .on("mouseover", (d, i) => handleMouseOver(event, i.key))
+    .on("mouseout", handleMouseOut)
+    .on("click", (d, i) => handleClick(i.key));
+
+    svg.append("rect")
+    .attr("id", "hover-rect-stream")
+    .style("display", "none");
+  
+  function handleClick(genre){
+    //console.log("clicked line for genre", genre)
+    genreCheckboxes.forEach(function (checkbox) {
+      if(checkbox.value == genre){
+        checkbox.checked = true;
+      }
+      else{
+        checkbox.checked = false;
+      }
+      updateFilteredData();
+  });
+  }
+  
+  
+    function handleMouseOver(event, genre) {
+      const [x, y] = d3.pointer(event);
+      const textWidth = genre.length * 7; // Set the desired text width
+      const textHeight = 20; // Set the desired text height
+  
+      const rectWidth = textWidth + 6;
+      const rectHeight = textHeight + 3;
+
+    d3.select("#hover-rect-stream")
+      .attr("width", rectWidth)
+      .attr("height", rectHeight)
+      .attr("x", x - 20)
+      .attr("y", y - 25)
+      .attr("rx", 5) // Rounded edges
+      .attr("ry", 5)
+      .style("fill", color(genre))
+      .style("display", "block");
+  
+  // Calculate the x position to center the text in the rectangle
+  const textX = x - 20 + rectWidth / 2 - textWidth / 2;
+    svg.append("text")
+      .attr("id", "hover-text-stream")
+      .attr("x", textX)
+      .attr("y", y - 10)
+      .attr("font-size", "14px")
+      .text(genre);
+    }
+  
+    function handleMouseOut() {
+      d3.select("#hover-rect-stream")
+        .style("display", "none");
+      d3.select("#hover-text-stream").remove();
+    }
 
   // // Create legend
   // const legend = svg.append("g")

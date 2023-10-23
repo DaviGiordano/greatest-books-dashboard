@@ -21,7 +21,7 @@ function drawLineChart(data) {
     && d.rating != "" && d.numRatings != "" && d.num_awards != "";
   });
 
- console.log("filtered data", localFilteredData)
+ //console.log("filtered data", localFilteredData)
   // Clear the previous chart if it exists
   d3.select("#linechart").selectAll("*").remove();
   
@@ -189,20 +189,20 @@ function handleClick(event){
   d3.select("#hover-rect")
     .attr("width", rectWidth)
     .attr("height", rectHeight)
-    .attr("x", x + 13)
-    .attr("y", y - 38)
+    .attr("x", x - 20)
+    .attr("y", y - 25)
     .attr("rx", 5) // Rounded edges
     .attr("ry", 5)
     .style("fill", color(key))
     .style("display", "block");
 
   // Calculate the x position to center the text in the rectangle
-  const textX = x + 13 + rectWidth / 2 - textWidth / 2;
+  const textX = x - 20 + rectWidth / 2 - textWidth / 2;
 
   svg.append("text")
     .attr("id", "hover-text")
     .attr("x", textX)
-    .attr("y", y - 20)
+    .attr("y", y - 10)
     .attr("font-size", "14px")
     .text(genre);
   }

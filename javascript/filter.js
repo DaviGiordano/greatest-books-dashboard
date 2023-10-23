@@ -80,10 +80,10 @@ function updateFilteredData() {
     const selectedCountries = getSelectedCountries();
 
     // Logs the selected filters
-    console.log("updateFilteredData called with minPages:", minPages, "and maxPages:", maxPages);
-    console.log("Start Date:", startDate, "End Date:", endDate);
-    console.log("Selected Genres:", selectedGenres);
-    console.log("Selected Countries:", selectedCountries);
+    // console.log("updateFilteredData called with minPages:", minPages, "and maxPages:", maxPages);
+    // console.log("Start Date:", startDate, "End Date:", endDate);
+    // console.log("Selected Genres:", selectedGenres);
+    // console.log("Selected Countries:", selectedCountries);
 
     // Filter the data based on the selected range of pages and dates
     globalFilteredData = globalInitialData.filter(function (d) {

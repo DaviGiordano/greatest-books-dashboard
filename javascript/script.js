@@ -38,7 +38,7 @@ function startDashboard() {
       d.rating = + d.rating;
       d.success_rate = + d.success_rate;
     });
-    console.log("-> Initial Data: ",data);
+    //console.log("-> Initial Data: ",data);
 
     // Set global variables
     globalInitialData = data.filter(function (d) {
