@@ -53,8 +53,8 @@ function getSelectedGenres() {
 // Function to get the selected countries from the dropdown
 function getSelectedCountries() {
  
-    const selectedCountries = Array.from(countrySelect.selectedOptions).map(option => option.value);
-
+    const selectedCountries = new Set(Array.from(countrySelect.selectedOptions).map(option => option.value));
+    console.log(selectedCountries);
     return selectedCountries;
 }
 
@@ -93,9 +93,8 @@ function updateFilteredData() {
             d.pages <= maxPages &&
             bookDate >= startDate &&
             bookDate <= endDate &&
-            // selectedGenres.some(genre => d.genres.includes(genre))// && // Check if the book has at least one selected genre
             selectedGenres.includes(d.first_genre) &&
-            selectedCountries.includes(d.country)
+            selectedCountries.has(d.iso)
         );
     });
 
@@ -103,5 +102,7 @@ function updateFilteredData() {
     drawLineChart(globalFilteredData);
     createStreamGraph(globalFilteredData);
     createParallelCoords(globalFilteredData);
-    createMapChart(globalFilteredData);     
+    updateMap();
+
+    // createMapChart(globalFilteredData);     
 }

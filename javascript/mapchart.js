@@ -1,3 +1,66 @@
+
+function handleClick(countryId) {
+    let selectedCountries = new Set(Array.from(countrySelect.selectedOptions).map(option => option.value));
+    console.log(countryId);
+    console.log(selectedCountries);
+    if (selectedCountries.has(countryId)) {
+        selectedCountries.delete(countryId);
+    } else {
+        selectedCountries.add(countryId);
+    }
+    for (let i = 0; i < countrySelect.options.length; i++) {
+        const option = countrySelect.options[i];
+        if (option.value === countryId) {
+            option.selected = !option.selected;
+            break;
+        }
+    }
+    updateFilteredData();
+}
+
+function updateMap() {
+    const minPages = +document.getElementById("fromSlider").value;
+    const maxPages = +document.getElementById("toSlider").value;
+
+
+    // Get the user's input for start and end dates
+    const startDate = new Date(document.getElementById("startDate").value);
+    const endDate = new Date(document.getElementById("endDate").value);
+
+    // Get the selected genres from the dropdown
+    const selectedGenres = [];
+
+    genreCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedGenres.push(checkbox.value);
+        }
+    });
+
+    let selectedCountries = new Set(Array.from(countrySelect.selectedOptions).map(option => option.value));
+    console.log(minPages, maxPages, startDate, endDate, selectedCountries, selectedGenres);
+    svg = d3.select("#mapchart")
+    svg.selectAll('path')
+        .attr("fill", d => selectedCountries.has(d.id) ? "#b8b8b8" : "#606060");
+
+    svg.selectAll('.marker')
+        .attr('visibility', d => selectedCountries.has(d.iso) ? 'visible' : 'hidden');
+
+    svg.selectAll('.marker')
+        .attr('visibility', d => {
+            const bookDate = new Date(d.clean_date);  // assuming d.bookDate is in a recognizable date format
+            return (
+                d.pages >= minPages &&
+                d.pages <= maxPages &&
+                bookDate >= startDate &&
+                bookDate <= endDate &&
+                selectedGenres.includes(d.first_genre) &&
+                selectedCountries.has(d.iso)
+            ) ? 'visible' : 'hidden';
+        });
+        console.trace()
+
+}
+
 function createMapChart(rawData) {
     localFilteredData = rawData.filter(function (d) {
         return d.latitude != "" && d.longitude != "" && d.country != "" && d.first_genre != "";
@@ -38,17 +101,6 @@ function createMapChart(rawData) {
     var projection = d3.geoMercator()
         .center([0, 5])
         .scale(150)
-    // .rotate([-180, 0]);
-
-    // // Create data for circles:
-    // const markers = [
-    //     { long: 9.083, lat: 42.149 }, // corsica
-    //     { long: 7.26, lat: 43.71 }, // nice
-    //     { long: 2.349, lat: 48.864 }, // Paris
-    //     { long: -1.397, lat: 43.664 }, // Hossegor
-    //     { long: 3.075, lat: 50.640 }, // Lille
-    //     { long: -3.83, lat: 58 }, // Morlaix
-    // ];
 
 
     d3.json('data/world_data.json').then(function (data) {
@@ -63,6 +115,7 @@ function createMapChart(rawData) {
             )
             .style("stroke", "black")
             .style("opacity", .3)
+            .on("click", (d, i) => handleClick(i.id));
 
         // Add circles:
         svg
@@ -77,6 +130,8 @@ function createMapChart(rawData) {
             // .attr("stroke", function (d) { return (color(d.first_genre)) })
             // .attr("stroke-width", 3)
             .attr("fill-opacity", .4)
+        // updateMap();  // Initially, display all countries and markers
+
     });
 
     var zoom = d3.zoom()

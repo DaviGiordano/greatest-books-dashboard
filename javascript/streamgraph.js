@@ -54,7 +54,7 @@ function createStreamGraph(rawData) {
   var keys = ["Fantasy", "Historical Fiction", "Poetry", "Science Fiction", "Adventure", "Horror", "Mystery", "Religion", "Biography", "Self Help", "Science", "Business"]
   var selected_keys = Array.from(allGenres);
   //console.log(keys);
-  
+
   // Remove empty string from keys
   keys = keys.filter((key) => key !== "");
 
@@ -78,16 +78,16 @@ function createStreamGraph(rawData) {
     .range([height, 0]);
   // svg.append("g").call(d3.axisLeft(y));
 
-const colorKeys = [
-  '#a6cee3', '#1f78b4', '#b2df8a', '#33a02c',
-  '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00',
-  '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'
-];
-//console.log(keys.length);
+  const colorKeys = [
+    '#a6cee3', '#1f78b4', '#b2df8a', '#33a02c',
+    '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00',
+    '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'
+  ];
+  //console.log(keys.length);
 
-const color = d3.scaleOrdinal()
-  .domain(keys)  // 12 keys
-  .range(colorKeys);
+  const color = d3.scaleOrdinal()
+    .domain(keys)  // 12 keys
+    .range(colorKeys);
 
   // Stack data
   const stackedData = d3.stack().offset(d3.stackOffsetSilhouette).keys(keys)(
@@ -118,31 +118,32 @@ const color = d3.scaleOrdinal()
     .on("mouseout", handleMouseOut)
     .on("click", (d, i) => handleClick(i.key));
 
-    svg.append("rect")
+  svg.append("rect")
     .attr("id", "hover-rect-stream")
     .style("display", "none");
-  
-  function handleClick(genre){
-    //console.log("clicked line for genre", genre)
+
+  function handleClick(genre) {
+    console.log(genreCheckboxes);
+    // console.log("clicked line for genre", genre)
     genreCheckboxes.forEach(function (checkbox) {
-      if(checkbox.value == genre){
+      if (checkbox.value == genre) {
         checkbox.checked = true;
       }
-      else{
+      else {
         checkbox.checked = false;
       }
       updateFilteredData();
-  });
+    });
   }
-  
-  
-    function handleMouseOver(event, genre) {
-      const [x, y] = d3.pointer(event);
-      const textWidth = genre.length * 7; // Set the desired text width
-      const textHeight = 20; // Set the desired text height
-  
-      const rectWidth = textWidth + 6;
-      const rectHeight = textHeight + 3;
+
+
+  function handleMouseOver(event, genre) {
+    const [x, y] = d3.pointer(event);
+    const textWidth = genre.length * 7; // Set the desired text width
+    const textHeight = 20; // Set the desired text height
+
+    const rectWidth = textWidth + 6;
+    const rectHeight = textHeight + 3;
 
     d3.select("#hover-rect-stream")
       .attr("width", rectWidth)
@@ -153,44 +154,21 @@ const color = d3.scaleOrdinal()
       .attr("ry", 5)
       .style("fill", color(genre))
       .style("display", "block");
-  
-  // Calculate the x position to center the text in the rectangle
-  const textX = x - 20 + rectWidth / 2 - textWidth / 2;
+
+    // Calculate the x position to center the text in the rectangle
+    const textX = x - 20 + rectWidth / 2 - textWidth / 2;
     svg.append("text")
       .attr("id", "hover-text-stream")
       .attr("x", textX)
       .attr("y", y - 10)
       .attr("font-size", "14px")
       .text(genre);
-    }
-  
-    function handleMouseOut() {
-      d3.select("#hover-rect-stream")
-        .style("display", "none");
-      d3.select("#hover-text-stream").remove();
-    }
+  }
 
-  // // Create legend
-  // const legend = svg.append("g")
-  //   .attr("transform", `translate(${width-legendWidth+18},0)`);  // Adjust the position accordingly
-
-  // selected_keys.reverse().forEach((key, i) => {
-  //   const legendRow = legend.append("g")
-  //     .attr("transform", `translate(0,${i * 20})`);
-
-  //   legendRow.append("circle")
-  //     .attr("r", 5)
-  //     .attr("transform", `translate(0,5)`)
-  //     // .attr("height", 10)
-  //     .attr("fill", color(key));
-
-  //   legendRow.append("text")
-  //     .attr("x", 15)
-  //     .attr("y", 10)
-  //     .attr("text-anchor", "start")
-  //     .style("text-transform", "capitalize")
-  //     .text(key);
-
-  // });
+  function handleMouseOut() {
+    d3.select("#hover-rect-stream")
+      .style("display", "none");
+    d3.select("#hover-text-stream").remove();
+  }
 
 }

@@ -12,7 +12,7 @@ var globalFilteredData;
 var globalInitialData;
 
 function startDashboard() {
-  
+
   /**
    * Reads the clean_books csv file
    * Transforms the adequate columns to numeric format
@@ -21,7 +21,7 @@ function startDashboard() {
    */
 
   // Reads csv
-  d3.csv("data/clean_books_with_country_optimized.csv").then(function (data) {
+  d3.csv("data/clean_books.csv").then(function (data) {
     // Converts to numeric format
     data.forEach(d => {
       d.pages = +d.pages;
