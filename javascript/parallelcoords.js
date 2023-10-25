@@ -44,48 +44,142 @@ function createParallelCoords(rawData) {
             .range([height, 0]);
     }
 
-    // // Redefining pages yAxis
-    // y['rating'] = d3.scaleLinear()
-    //     .domain([0, 5])
-    //     .range([height, 0]);
 
     // Build the X scale -> it find the best position for each Y axis
     x = d3.scalePoint()
-        .range([0, width- margin.right-20])
+        .range([0, width])
         .domain(dimensions);
 
     // path function
     // The path function take a row of the csv as input, and return x and y coordinates of the line to draw for this raw.
     function path(d) {
-        // console.log(d);
-        // console.log(dimensions.map(function (p) { return [x(p), y[p](d[p])]; }));
+
         return d3.line()(dimensions.map(function (p) { return [x(p), y[p](d[p])]; }));
     }
-    // Draw the lines
-    svg
-        .selectAll("myPath")
-        .data(localFilteredData)
-        .join("path")
-        .attr("class", function (d) { return "line " + d.first_genre }) // 2 class for each line: 'line' and the group name
-        .attr("d", path)
-        .style("fill", "none")
-        .style("stroke", function (d) { return (color(d.first_genre)) })
-        .style("opacity", 0.5)
 
-    // Draw the axis:
-    svg.selectAll("myAxis")
-        // For each dimension of the dataset I add a 'g' element:
-        .data(dimensions).enter()
-        .append("g")
-        .attr("class", "axis")
-        // I translate this element to its right position on the x axis
-        .attr("transform", function (d) { return `translate(${x(d)})` })
-        // And I build the axis with the call function
-        .each(function (d) { d3.select(this).call(d3.axisLeft().ticks(8).scale(y[d])); })
-        // Add axis title
-        .append("text")
-        .style("text-anchor", "middle")
-        .attr("y", -9)
-        .text(function (d) { return d; })
-        .style("fill", "black")
+
+// Draw the axis:
+svg.selectAll("myAxis")
+    .data(dimensions).enter()
+    .append("g")
+    .attr("class", "axis")
+    .attr("transform", function (d) { return `translate(${x(d)})` })
+    .each(function (d) {
+        const axis = d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));
+    })
+    .append("text")
+    .style("text-anchor", "middle")
+    .attr("y", -9)
+    .attr("x", -10)
+    .text(function (d) { return d; })
+    .style("fill", "black");
+
+
+    // Calculate the average values for each dimension for each specified genre
+    const averageGenreData = {};
+
+    allGenres.forEach(genre => {
+        const averageValues = {};
+        dimensions.forEach(dimension => {
+            averageValues[dimension] = d3.mean(localFilteredData.filter(d => d.first_genre === genre), d => +d[dimension]);
+        });
+        averageGenreData[genre] = averageValues;
+    });
+    
+    // Calculate the overall minimum and maximum values for each dimension
+    const overallMinMaxValues = {};
+    dimensions.forEach(dimension => {
+    const [min, max] = d3.extent(allGenres.map(genre => averageGenreData[genre][dimension]));
+    const offset = 0.1 * (max - min); // 10% offset
+    overallMinMaxValues[dimension] = [min - offset, max + offset];
+    });
+
+    // Update the y-axis scales based on the overall minimum and maximum values
+    for (const name of dimensions) {
+    y[name] = d3.scaleLinear()
+        .domain(overallMinMaxValues[name])
+        .range([height, 0]);
+    }
+
+    // Redraw the axes with the updated scales
+    svg.selectAll(".axis")
+        .each(function (d) {
+            const axis = d3.select(this).call(
+                d3.axisLeft().ticks(5).scale(y[d])
+                    .tickSizeInner(6) // Size of intermediate ticks
+                    .tickSizeOuter(0)  // Size of the minimum and maximum ticks (set to 0 to hide)
+            );
+        });
+
+
+    svg.append("rect")
+    .attr("id", "hover-rect-pc")
+    .style("display", "none");
+
+    // Function to handle mouseover
+    function handleMouseOver(event,genre) {
+        const [x, y] = d3.pointer(event);
+        const textWidth = genre.length * 7; // Set the desired text width
+        const textHeight = 20; // Set the desired text height
+    
+        const rectWidth = textWidth + 6;
+        const rectHeight = textHeight + 3;
+  
+      d3.select("#hover-rect-pc")
+        .attr("width", rectWidth)
+        .attr("height", rectHeight)
+        .attr("x", x - 20)
+        .attr("y", y - 25)
+        .attr("rx", 5) // Rounded edges
+        .attr("ry", 5)
+        .style("fill", color(genre))
+        .style("display", "block");
+    
+    // Calculate the x position to center the text in the rectangle
+    const textX = x - 20 + rectWidth / 2 - textWidth / 2;
+      svg.append("text")
+        .attr("id", "hover-text-pc")
+        .attr("x", textX)
+        .attr("y", y - 10)
+        .attr("font-size", "14px")
+        .text(genre);
+    }
+
+    // Function to handle mouseout
+    function handleMouseOut() {
+        d3.select("#hover-rect-pc")
+        .style("display", "none");
+        d3.select("#hover-text-pc").remove();
+    }
+
+    // Function to handle click
+    function handleClick(genre) {
+        console.log("picked ", genre);
+        genreCheckboxes.forEach(function (checkbox) {
+            if(checkbox.value == genre){
+              checkbox.checked = true;
+            }
+            else{
+              checkbox.checked = false;
+            }
+            updateFilteredData();
+        });
+    }
+
+
+    // Add lines representing the average values for each genre
+    allGenres.forEach(genre => {
+        svg.append("path")
+            .datum(dimensions.map(dimension => ({ dimension, value: averageGenreData[genre][dimension] })))
+            .attr("class", "average-line")
+            .attr("d", function (d) {
+                return d3.line()(d.map(function (p) { return [x(p.dimension), y[p.dimension](p.value)]; }));
+            })
+            .style("fill", "none")
+            .style("stroke",  color(genre)) // You can choose different colors for each genre
+            .style("stroke-width", 2)
+            .on("mouseover", () => handleMouseOver(event,genre)) // Show tooltip on hover
+            .on("mouseout", handleMouseOut)
+            .on("click", () => handleClick(genre)); // Hide tooltip on mouseout;
+    });
 }
