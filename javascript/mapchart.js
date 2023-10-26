@@ -3,22 +3,34 @@ function handleClick(countryId) {
     let selectedCountries = new Set(Array.from(countrySelect.selectedOptions).map(option => option.value));
     console.log(countryId);
     console.log(selectedCountries);
-    if (selectedCountries.has(countryId)) {
-        selectedCountries.delete(countryId);
-    } else {
-        selectedCountries.add(countryId);
+    document.getElementById(countryId).click()
+    // if (selectedCountries.has(countryId)) {
+    //     selectedCountries.delete(countryId);
+    // } else {
+    //     selectedCountries.add(countryId);
+    // }
+    // for (let i = 0; i < countrySelect.options.length; i++) {
+    //     const option = countrySelect.options[i];
+    //     if (option.value === countryId) {
+    //         option.selected = !option.selected;
+    //         break;
+    //     }
+    // }
+    // updateFilteredData();
+}
+
+function handleClear() {
+    countryOptions = document.getElementsByClassName('checked')
+
+    for (let i = 1; i <= countryOptions.length; i++) {
+       countryOptions[i].click()
     }
-    for (let i = 0; i < countrySelect.options.length; i++) {
-        const option = countrySelect.options[i];
-        if (option.value === countryId) {
-            option.selected = !option.selected;
-            break;
-        }
-    }
-    updateFilteredData();
+    // updateFilteredData();
 }
 
 function updateMap() {
+
+
     const minPages = +document.getElementById("fromSlider").value;
     const maxPages = +document.getElementById("toSlider").value;
 
@@ -39,6 +51,7 @@ function updateMap() {
     let selectedCountries = new Set(Array.from(countrySelect.selectedOptions).map(option => option.value));
     console.log(minPages, maxPages, startDate, endDate, selectedCountries, selectedGenres);
     svg = d3.select("#mapchart")
+    console.log();
     svg.selectAll('path')
         .attr("fill", d => selectedCountries.has(d.id) ? "#b8b8b8" : "#606060");
 
@@ -57,7 +70,7 @@ function updateMap() {
                 selectedCountries.has(d.iso)
             ) ? 'visible' : 'hidden';
         });
-        console.trace()
+    console.trace()
 
 }
 
@@ -132,6 +145,7 @@ function createMapChart(rawData) {
             .attr("fill-opacity", .4)
         // updateMap();  // Initially, display all countries and markers
 
+
     });
 
     var zoom = d3.zoom()
@@ -143,5 +157,21 @@ function createMapChart(rawData) {
                 .attr('transform', event.transform);
         });
 
+
     svg.call(zoom);
+
+    // Append button to bottom-left corner and make it float
+    // const button = svg.append("foreignObject")
+    //     .attr("x", 0)
+    //     .attr("y", 450) // Adjust position based on your chart size
+    //     .attr("width", 100)
+    //     .attr("height", 50)
+    //     .append("xhtml:button")
+    //     .style("position", "absolute")
+    //     .text("Click Me");
+
+    // // Button click event
+    // button.on("click", function () {
+    //     alert("Button clicked!");
+    // });
 }

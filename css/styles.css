@@ -40,6 +40,9 @@ html, body{
     margin-top: 10px;
 
 }
+#mapchart{
+    position: relative;
+}
 #linechartContainer{
     height: fit-content;
     width: fit-content;

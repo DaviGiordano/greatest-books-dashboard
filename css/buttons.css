@@ -61,3 +61,7 @@
 #filterButton{
     background-color: lightblue;
 }
+
+path{
+  cursor: pointer;
+}

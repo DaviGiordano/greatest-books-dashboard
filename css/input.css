@@ -4,6 +4,7 @@
     background: #FAFBFC;
 	border-radius: 8px;
     width: 90px;
+    cursor: pointer;
 
     font-size: 12px;
     border-color: transparent;
@@ -17,3 +18,7 @@
     cursor: pointer;
     height: auto;
 } */
+
+.multiselect-dropdown{
+    cursor: pointer;
+}

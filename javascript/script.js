@@ -55,8 +55,7 @@ function startDashboard() {
     createStreamGraph(globalInitialData);
     createParallelCoords(globalInitialData);
     createMapChart(globalInitialData);
-    // createAreaChart(data);
-    // createAreaChart(data);
+    setTimeout(() => {  updateMap(); }, 100);
 
   })
 }
