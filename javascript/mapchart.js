@@ -129,6 +129,7 @@ function createMapChart(rawData) {
             .style("stroke", "black")
             .style("opacity", .3)
             .on("click", (d, i) => handleClick(i.id));
+            // .on("mousedown", (d, i) => handleClick(i.id));
 
         // Add circles:
         svg

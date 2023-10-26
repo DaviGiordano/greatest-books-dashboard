@@ -53,9 +53,14 @@
 }
 
 .filter-row{
-  width: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  margin-bottom: 8px;
 }
 
+#period-inputs{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}

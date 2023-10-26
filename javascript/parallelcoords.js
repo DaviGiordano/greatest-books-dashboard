@@ -1,4 +1,19 @@
+var dimensions = ['pages', 'numRatings', 'rating', 'num_awards']
+
 function createParallelCoords(rawData) {
+
+    function swapDimensions(i, j) {
+        console.log(i, j);
+        if (i >= 0 && i < dimensions.length && j >= 0 && j < dimensions.length) {
+            const temp = dimensions[i];
+            dimensions[i] = dimensions[j];
+            dimensions[j] = temp;
+        }
+        console.log(dimensions);
+        createParallelCoords(localFilteredData)
+    }
+
+
     localFilteredData = rawData.filter(function (d) {
         return d.pages != "" && d.numRatings != "" && d.rating != "" && d.num_awards != "" && d.first_genre != "";
     });
@@ -35,7 +50,7 @@ function createParallelCoords(rawData) {
         .domain(allGenres)  // 12 keys
         .range(colorKeys);
 
-    dimensions = ['pages', 'numRatings', 'rating', 'num_awards']
+
 
     const y = {};
     for (const name of dimensions) {
@@ -58,49 +73,46 @@ function createParallelCoords(rawData) {
     }
 
 
-// Draw the axis:
-svg.selectAll("myAxis")
-    .data(dimensions).enter()
-    .append("g")
-    .attr("class", "axis")
-    .attr("transform", function (d) { return `translate(${x(d)})` })
-    .each(function (d) {
-        const axis = d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));
-    })
-    .append("text")
-    .style("text-anchor", "middle")
-    .attr("y", -9)
-    .attr("x", -10)
-    .text(function (d) { return d; })
-    .style("fill", "black");
 
 
     // Calculate the average values for each dimension for each specified genre
     const averageGenreData = {};
+    const genreCounts = {}; // Variable to store the number of items in each genre
 
     allGenres.forEach(genre => {
         const averageValues = {};
+        const itemsInGenre = localFilteredData.filter(d => d.first_genre === genre);
         dimensions.forEach(dimension => {
-            averageValues[dimension] = d3.mean(localFilteredData.filter(d => d.first_genre === genre), d => +d[dimension]);
+            averageValues[dimension] = d3.mean(itemsInGenre, d => +d[dimension]);
         });
+        // dimensions.forEach(dimension => {
+        //     averageValues[dimension] = d3.mean(localFilteredData.filter(d => d.first_genre === genre), d => +d[dimension]);
+        // });
         averageGenreData[genre] = averageValues;
+        genreCounts[genre] = itemsInGenre.length;  // Save the number of items for this genre
+
     });
-    
+    // console.log(genreCounts['Adventure']);
     // Calculate the overall minimum and maximum values for each dimension
     const overallMinMaxValues = {};
     dimensions.forEach(dimension => {
-    const [min, max] = d3.extent(allGenres.map(genre => averageGenreData[genre][dimension]));
-    const offset = 0.1 * (max - min); // 10% offset
-    overallMinMaxValues[dimension] = [min - offset, max + offset];
+        const [min, max] = d3.extent(allGenres.map(genre => averageGenreData[genre][dimension]));
+        const offset = 0.1 * (max - min); // 10% offset
+        overallMinMaxValues[dimension] = [min - offset, max + offset];
     });
 
     // Update the y-axis scales based on the overall minimum and maximum values
     for (const name of dimensions) {
-    y[name] = d3.scaleLinear()
-        .domain(overallMinMaxValues[name])
-        .range([height, 0]);
+        y[name] = d3.scaleLinear()
+            .domain(overallMinMaxValues[name])
+            .range([height, 0]);
     }
+    genreCountsArray = (Object.values(genreCounts))
+    const line_width = d3.scaleLinear()
+        .domain([d3.min(genreCountsArray), d3.max(genreCountsArray)])
+        .range([1, 20])
 
+    // console.log(line_width('Adventure'));
     // Redraw the axes with the updated scales
     svg.selectAll(".axis")
         .each(function (d) {
@@ -112,43 +124,41 @@ svg.selectAll("myAxis")
         });
 
 
-    svg.append("rect")
-    .attr("id", "hover-rect-pc")
-    .style("display", "none");
 
     // Function to handle mouseover
-    function handleMouseOver(event,genre) {
+    function handleMouseOver(event, genre) {
         const [x, y] = d3.pointer(event);
         const textWidth = genre.length * 7; // Set the desired text width
         const textHeight = 20; // Set the desired text height
-    
+
         const rectWidth = textWidth + 6;
         const rectHeight = textHeight + 3;
-  
-      d3.select("#hover-rect-pc")
-        .attr("width", rectWidth)
-        .attr("height", rectHeight)
-        .attr("x", x - 20)
-        .attr("y", y - 25)
-        .attr("rx", 5) // Rounded edges
-        .attr("ry", 5)
-        .style("fill", color(genre))
-        .style("display", "block");
-    
-    // Calculate the x position to center the text in the rectangle
-    const textX = x - 20 + rectWidth / 2 - textWidth / 2;
-      svg.append("text")
-        .attr("id", "hover-text-pc")
-        .attr("x", textX)
-        .attr("y", y - 10)
-        .attr("font-size", "14px")
-        .text(genre);
+
+        d3.select("#hover-rect-pc")
+            .attr("width", rectWidth)
+            .attr("height", rectHeight)
+            .attr("x", x - 20)
+            .attr("y", y - 25)
+            .attr("rx", 5) // Rounded edges
+            .attr("ry", 5)
+            .style("fill", color(genre))
+            .style("z-index", '1000')
+            .style("display", "block");
+
+        // Calculate the x position to center the text in the rectangle
+        const textX = x - 20 + rectWidth / 2 - textWidth / 2;
+        svg.append("text")
+            .attr("id", "hover-text-pc")
+            .attr("x", textX)
+            .attr("y", y - 10)
+            .attr("font-size", "14px")
+            .text(genre);
     }
 
     // Function to handle mouseout
     function handleMouseOut() {
         d3.select("#hover-rect-pc")
-        .style("display", "none");
+            .style("display", "none");
         d3.select("#hover-text-pc").remove();
     }
 
@@ -156,17 +166,18 @@ svg.selectAll("myAxis")
     function handleClick(genre) {
         console.log("picked ", genre);
         genreCheckboxes.forEach(function (checkbox) {
-            if(checkbox.value == genre){
-              checkbox.checked = true;
+            if (checkbox.value == genre) {
+                checkbox.checked = true;
             }
-            else{
-              checkbox.checked = false;
+            else {
+                checkbox.checked = false;
             }
             updateFilteredData();
         });
     }
 
 
+    // console.log(averageGenreData);
     // Add lines representing the average values for each genre
     allGenres.forEach(genre => {
         svg.append("path")
@@ -176,10 +187,86 @@ svg.selectAll("myAxis")
                 return d3.line()(d.map(function (p) { return [x(p.dimension), y[p.dimension](p.value)]; }));
             })
             .style("fill", "none")
-            .style("stroke",  color(genre)) // You can choose different colors for each genre
-            .style("stroke-width", 2)
-            .on("mouseover", () => handleMouseOver(event,genre)) // Show tooltip on hover
+            .style("stroke", color(genre)) // You can choose different colors for each genre
+            .style("stroke-width", line_width(genreCounts[genre]))
+            .on("mouseover", () => handleMouseOver(event, genre)) // Show tooltip on hover
             .on("mouseout", handleMouseOut)
             .on("click", () => handleClick(genre)); // Hide tooltip on mouseout;
     });
+    // Draw the axis:
+    // svg.selectAll("myAxis")
+    //     .data(dimensions).enter()
+    //     .append("g")
+    //     .attr("class", "axis")
+    //     .attr("transform", function (d) { return `translate(${x(d)})` })
+    //     .each(function (d) {
+    //         const axis = d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));
+    //     })
+    //     .append("text")
+    //     .style("text-anchor", "middle")
+    //     .attr("y", -9)
+    //     .attr("x", -10)
+    //     .text(function (d) { return d; })
+    //     .style("fill", "black")
+    svg.selectAll("myAxis")
+        .data(dimensions).enter()
+        .append("g")
+        .attr("class", "axis")
+        .attr("transform", function (d) { return `translate(${x(d)})` })
+        .each(function (d) {
+            const axis = d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));
+            const padding = 2; // Define your padding value
+
+            axis.selectAll("text")  // Select all tick texts
+                .attr("fill", "black")
+                .each(function () {
+                    const bbox = this.getBBox();  // Get bounding box of text
+                    d3.select(this.parentNode)
+                        .insert("rect", ":first-child")
+                        .attr("x", bbox.x - padding)
+                        .attr("y", bbox.y - padding)
+                        .attr("width", bbox.width + 2 * padding)
+                        .attr("height", bbox.height + 2 * padding)
+                        .attr("rx", 5)  // Add border radius
+                        .attr("ry", 5)  // Add border radius
+                        .attr("fill", "white")
+                        .attr("opacity", 1);  // Set opacity
+                });
+        })
+        .append("text")
+        .style("text-anchor", "middle")
+        .attr("y", -9)
+        .attr("x", -10)
+        .text(function (d) { return d; })
+        .style("fill", "black");
+
+    // Add buttons for swapping axes
+    svg.selectAll("swapButton")
+        .data(dimensions).enter()
+        .append("text")
+        .style("text-anchor", "middle")
+        .attr("y", height + margin.bottom / 2)
+        .attr("x", function (d) { return x(d) - 10; })
+        .text("<")
+        .style("cursor", "pointer")
+        .on("click", function (d, i) {
+            swapDimensions(dimensions.indexOf(i), dimensions.indexOf(i) - 1);
+        });
+
+    svg.selectAll("swapButton")
+        .data(dimensions).enter()
+        .append("text")
+        .style("text-anchor", "middle")
+        .attr("y", height + margin.bottom / 2)
+        .attr("x", function (d) { return x(d) + 10; })
+        .text(">")
+        .style("cursor", "pointer")
+        .on("click", function (d, i) {
+            swapDimensions(dimensions.indexOf(i), dimensions.indexOf(i) + 1);
+        });
+
+
+    svg.append("rect")
+        .attr("id", "hover-rect-pc")
+        .style("display", "none");
 }

@@ -26,48 +26,54 @@
         <div id="sidebar">
             <img id="logo" src="img/logo_2.png" alt="">
             <div id="filter-box">
-                <!-- Genres filters -->
-                <p>Select Genres</p>
-                <!-- Buttons for "Select All" and "Clear All" -->
-                <button id="selectAllButton">Select all</button>
-                <button id="clearAllButton">Clear</button>
-                <div class="pill-container">
-                    <input class="genre-checkbox" checked type="checkbox" id="Adventure" name="selector"
-                        value="Adventure">
-                    <label id="Adventure" class="selector" for="Adventure">Adventure</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Biography" name="selector"
-                        value="Biography">
-                    <label id="Biography" class="selector" for="Biography">Biography</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Business" name="selector"
-                        value="Business">
-                    <label id="Business" class="selector" for="Business">Business</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Fantasy" name="selector" value="Fantasy">
-                    <label id="Fantasy" class="selector" for="Fantasy">Fantasy</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="HistoricalFiction" name="selector"
-                        value="Historical Fiction">
-                    <label id="HistoricalFiction" class="selector" for="HistoricalFiction">Historical Fiction</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Horror" name="selector" value="Horror">
-                    <label id="Horror" class="selector" for="Horror">Horror</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Mystery" name="selector" value="Mystery">
-                    <label id="Mystery" class="selector" for="Mystery">Mystery</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Poetry" name="selector" value="Poetry">
-                    <label id="Poetry" class="selector" for="Poetry">Poetry</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Religion" name="selector"
-                        value="Religion">
-                    <label id="Religion" class="selector" for="Religion">Religion</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="Science" name="selector" value="Science">
-                    <label id="Science" class="selector" for="Science">Science</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="SelfHelp" name="selector"
-                        value="Self Help">
-                    <label id="SelfHelp" class="selector" for="SelfHelp">Self Help</label>
-                    <input class="genre-checkbox" checked type="checkbox" id="ScienceFiction" name="selector"
-                        value="Science Fiction">
-                    <label id="ScienceFiction" class="selector" for="ScienceFiction">Science Fiction</label>
-
-
-
+                <div class="filter-row">
+                    <!-- Genres filters -->
+                    <p>Select Genres</p>
+                    <!-- Buttons for "Select All" and "Clear All" -->
+                    <div id="button-div">
+                        <button class="form-button" id="selectAllButton">Select all</button>
+                        <button class="form-button" id="clearAllButton">Clear</button>
+                    </div>
+                    <div class="pill-container">
+                        <input class="genre-checkbox" checked type="checkbox" id="Adventure" name="selector"
+                            value="Adventure">
+                        <label id="Adventure" class="selector" for="Adventure">Adventure</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Biography" name="selector"
+                            value="Biography">
+                        <label id="Biography" class="selector" for="Biography">Biography</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Business" name="selector"
+                            value="Business">
+                        <label id="Business" class="selector" for="Business">Business</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Fantasy" name="selector"
+                            value="Fantasy">
+                        <label id="Fantasy" class="selector" for="Fantasy">Fantasy</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="HistoricalFiction" name="selector"
+                            value="Historical Fiction">
+                        <label id="HistoricalFiction" class="selector" for="HistoricalFiction">Historical
+                            Fiction</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Horror" name="selector"
+                            value="Horror">
+                        <label id="Horror" class="selector" for="Horror">Horror</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Mystery" name="selector"
+                            value="Mystery">
+                        <label id="Mystery" class="selector" for="Mystery">Mystery</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Poetry" name="selector"
+                            value="Poetry">
+                        <label id="Poetry" class="selector" for="Poetry">Poetry</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Religion" name="selector"
+                            value="Religion">
+                        <label id="Religion" class="selector" for="Religion">Religion</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="Science" name="selector"
+                            value="Science">
+                        <label id="Science" class="selector" for="Science">Science</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="SelfHelp" name="selector"
+                            value="Self Help">
+                        <label id="SelfHelp" class="selector" for="SelfHelp">Self Help</label>
+                        <input class="genre-checkbox" checked type="checkbox" id="ScienceFiction" name="selector"
+                            value="Science Fiction">
+                        <label id="ScienceFiction" class="selector" for="ScienceFiction">Science Fiction</label>
+                    </div>
                 </div>
-
                 <!-- Countries filters -->
                 <div class="filter-row">
                     <p>Select Countries</p>
@@ -194,7 +200,7 @@
                     </select>
                 </div>
                 <!-- Number of pages filters -->
-                <div>
+                <div class="filter-row">
                     <p>Select Number of pages</p>
                     <div class="range_container">
                         <div class="sliders_control">
@@ -213,21 +219,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="filter-group">
-                    <!-- <div class="filter-row">
-                        <div class="input-container"><label for="minPages">Minimum Pages:</label><input type="number"
-                                class="input-form" id="minPages" value="10"></div>
-                        <div class="input-container"><label for="maxPages">Maximum Pages:</label><input type="number"
-                                class="input-form" id="maxPages" value="2000"></div>
-                    </div> -->
-
+                <div class="filter-row">
                     <!-- Start and end date filters -->
-                    <div class="filter-row">
-                        <p>Select period </p>
-                        <div id="period-inputs">
-                            <input class="input-form" type="date" id="startDate" value="1900-01-01">
-                            <input class="input-form" type="date" id="endDate" value="2020-11-30">
-                        </div>
+                    <p>Select period </p>
+                    <div id="period-inputs">
+                        <input class="input-form" type="date" id="startDate" value="1900-01-01">
+                        <input class="input-form" type="date" id="endDate" value="2020-11-30">
                     </div>
                 </div>
             </div>

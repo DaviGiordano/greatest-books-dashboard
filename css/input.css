@@ -1,6 +1,6 @@
 .input-form{
-	padding: 10px;
-	margin: 5px;
+	padding: 4px;
+	/* margin: px; */
     background: #FAFBFC;
 	border-radius: 8px;
     width: 90px;
@@ -21,4 +21,5 @@
 
 .multiselect-dropdown{
     cursor: pointer;
+    margin-top: 4px;
 }
